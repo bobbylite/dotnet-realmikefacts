@@ -29,7 +29,9 @@ jobs:
         run: dotnet restore
 
       - name: dotnet audit
-        run: call check-packages.bat
+        shell: powershell
+        run: |
+          .\dotnet-audit.ps1
 
   build:
     runs-on: windows-latest
