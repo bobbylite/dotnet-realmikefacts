@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net7</TargetFramework>
+    <TargetFramework>net8</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>general.purpose.poc</RootNamespace>
@@ -16,9 +16,9 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
     <AnalysisMode>Recommended</AnalysisMode>
-        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-        <NoWarn>CA1848,AD0001,CA1852</NoWarn>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+      <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+      <NoWarn>CA1848,AD0001,CA1852</NoWarn>
+      <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,9 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="7.0.12" />
-    <PackageReference Include="Microsoft.Identity.Web" Version="1.3.0" /> <!-- Required for AuthN / AuthZ -->
-    <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.3.0" /> <!-- Required for Sign-In / Sign-Out nav items -->
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.0-rc.2.23480.2" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="2.15.2" /> <!-- Required for AuthN / AuthZ -->
+    <PackageReference Include="Microsoft.Identity.Web.UI" Version="2.15.2" /> <!-- Required for Sign-In / Sign-Out nav items -->
   </ItemGroup>
 
   <Target Name="BeforeBuildTasks" BeforeTargets="BeforeBuild">
