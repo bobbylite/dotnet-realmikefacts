@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.0-rc.2.23480.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="7.0.12" />
     <PackageReference Include="Microsoft.Identity.Web" Version="2.15.2" /> <!-- Required for AuthN / AuthZ -->
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="2.15.2" /> <!-- Required for Sign-In / Sign-Out nav items -->
   </ItemGroup>
