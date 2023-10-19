@@ -29,9 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.3" />
-    <PackageReference Include="Microsoft.Identity.Web" Version="1.23.1" /> <!-- Required for AuthN / AuthZ -->
-    <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.23.1" /> <!-- Required for Sign-In / Sign-Out nav items -->
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="7.0.12" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="2.15.2" /> <!-- Required for AuthN / AuthZ -->
+    <PackageReference Include="Microsoft.Identity.Web.UI" Version="2.15.2" /> <!-- Required for Sign-In / Sign-Out nav items -->
   </ItemGroup>
 
   <Target Name="BeforeBuildTasks" BeforeTargets="BeforeBuild">
