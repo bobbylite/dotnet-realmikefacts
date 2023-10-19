@@ -10,6 +10,27 @@ on:
   workflow_dispatch:
 
 jobs:
+  audit:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.x'
+          include-prerelease: true
+
+      - name: Install libman
+        run: dotnet tool install -g Microsoft.Web.LibraryManager.Cli
+
+      - name: dotnet restore
+        run: dotnet restore
+
+      - name: dotnet audit
+        run: call check-packages.bat
+
   build:
     runs-on: windows-latest
 
