@@ -1,0 +1,37 @@
+{
+  "name": "general-purpose-poc",
+  "version": "1.0.0",
+  "description": "a sample repository on general best practices with dotnet ",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.3.0",
+    "del": "^6.0.0",
+    "gulp": "^4.0.2",
+    "gulp-cli": "^2.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssmin": "^0.2.0",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-terser": "^2.1.0",
+    "merge-stream": "^2.0.0",
+    "bootstrap": "5.2.3",
+    "jquery": "3.6.3",
+    "jquery-validation": "1.19.5",
+    "jquery-validation-unobtrusive": "4.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "run": "dotnet run",
+    "build": "dotnet build",
+    "test": "dotnet test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bobbbielite/general-purpose-poc.git"
+  },
+  "author": "bobbitlite",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bobbbielite/general-purpose-poc/issues"
+  },
+  "homepage": "https://github.com/bobbbielite/general-purpose-poc#readme"
+}

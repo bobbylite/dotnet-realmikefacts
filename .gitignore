@@ -1,0 +1,40 @@
+# Project 
+obj/
+bin/
+Properties/
+.vscode/
+
+
+# IDE artifacts
+**/.idea/
+**/.vs/
+
+# Build artifacts
+**/bin/
+**/obj/
+
+# OS artifacts
+.DS_Store
+
+# Automatically created / generated files
+**/wwwroot/lib
+**/node_modules
+**/wwwroot/css/*.min.*
+**/wwwroot/js/*.min.*
+GAFG.CIAM.Web/wwwroot/build-info.html
+publish_output
+application.zip
+
+# Local .NET Core config
+global.json
+
+# Coverlet coverage results
+coverage.cobertura.xml
+coverage.opencover.xml
+coverage.info
+coverage.json
+
+# Misc local-only files
+*/aws-logger-errors.txt
+*.user
+private/*
