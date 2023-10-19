@@ -4,7 +4,7 @@
     <TargetFramework>net7</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>general_purpose_poc</RootNamespace>
+    <RootNamespace>general.purpose.poc</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <!-- The following is required to work around https://github.com/dotnet/sdk/issues/10566 -->
@@ -30,14 +30,15 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="7.0.12" />
-    <PackageReference Include="Microsoft.Identity.Web" Version="2.15.2" /> <!-- Required for AuthN / AuthZ -->
-    <PackageReference Include="Microsoft.Identity.Web.UI" Version="2.15.2" /> <!-- Required for Sign-In / Sign-Out nav items -->
+    <PackageReference Include="Microsoft.Identity.Web" Version="1.3.0" /> <!-- Required for AuthN / AuthZ -->
+    <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.3.0" /> <!-- Required for Sign-In / Sign-Out nav items -->
   </ItemGroup>
 
   <Target Name="BeforeBuildTasks" BeforeTargets="BeforeBuild">
         <Exec Command="libman restore" />
         <Exec Command="npm install" />
-        <Exec Command="./node_modules/.bin/gulp min" />
+        <Exec Command="pwd" />
+        <Exec Command="../node_modules/.bin/gulp min" />
     </Target>
 
 

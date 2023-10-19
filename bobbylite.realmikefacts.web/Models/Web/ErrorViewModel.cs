@@ -1,3 +1,6 @@
+// Copyright (c) Tunnel Vision Laboratories, LLC. All Rights Reserved.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 namespace general.purpose.poc.Models.Web;
 
 /// <summary>
@@ -15,5 +18,5 @@ public class ErrorViewModel
     /// Gets a value indicating whether the UI should display request id.
     /// </summary>
     /// <returns><see cref="bool"/>.</returns>
-    public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+    public bool ShowRequestId => !string.IsNullOrEmpty(this.RequestId);
 }

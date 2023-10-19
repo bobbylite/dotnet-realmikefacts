@@ -15,6 +15,9 @@ $output = dotnet list package --vulnerable --include-transitive
 Write-Output $output
 
 # Check if the output contains "following vulnerable".
-if ($output -match "following vulnerable") {
+if ($output -match "Project ``bobbylite.realmikefacts.web`` has the following vulnerable packages") {
     exit 1
+}
+else {
+    Write-Output "Project ``bobbylite.realmikefacts.web`` has no vulnerable packages"
 }
