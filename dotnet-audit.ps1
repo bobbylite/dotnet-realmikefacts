@@ -11,12 +11,12 @@
 dotnet restore
 
 # Get the output of the package analysis.
-$output = dotnet list package --vulnerable --include-transitive
+$output = dotnet list package --vulnerable
 Write-Output $output
 
 # Check if the output contains "following vulnerable".
 if ($output -match "Project ``bobbylite.realmikefacts.web`` has the following vulnerable packages") {
-    exit 0 # change to 1 to cause failure in pipeline.
+    exit 1
 }
 else {
     Write-Output "Project ``bobbylite.realmikefacts.web`` has no vulnerable packages"
