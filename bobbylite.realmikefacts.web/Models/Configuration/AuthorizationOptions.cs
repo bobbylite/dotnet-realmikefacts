@@ -1,4 +1,4 @@
-namespace general.purpose.poc.Models.Configuration;
+namespace bobbylite.realmikefacts.web.Models.Configuration;
 
 /// <summary>
 /// The configuration options for authorization of requested web resources.

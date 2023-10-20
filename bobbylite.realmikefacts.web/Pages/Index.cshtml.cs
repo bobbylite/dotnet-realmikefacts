@@ -3,7 +3,7 @@
 namespace bobbylite.realmikefacts.web.Pages;
 
 /// <summary>
-/// Index.
+/// Index page model.
 /// </summary>
 public class IndexModel : PageModel
 {

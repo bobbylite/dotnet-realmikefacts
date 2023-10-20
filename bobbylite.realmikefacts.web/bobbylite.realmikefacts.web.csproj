@@ -4,7 +4,7 @@
     <TargetFramework>net7</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>general.purpose.poc</RootNamespace>
+    <RootNamespace>bobbylite.realmikefacts.web</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <!-- The following is required to work around https://github.com/dotnet/sdk/issues/10566 -->
