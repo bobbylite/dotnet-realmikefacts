@@ -35,7 +35,7 @@ jobs:
           
   unit-test:
     runs-on: windows-latest
-    needs: unit-test
+    needs: audit
     
     steps:
       - uses: actions/checkout@v4
