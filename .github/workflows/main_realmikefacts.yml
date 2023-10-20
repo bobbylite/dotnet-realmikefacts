@@ -49,6 +49,9 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
 
+      - name: Install dotnet tooling
+        run: dotnet tool install -g Microsoft.Web.LibraryManager.Cli
+
       - name: Build project
         run: dotnet build
 
