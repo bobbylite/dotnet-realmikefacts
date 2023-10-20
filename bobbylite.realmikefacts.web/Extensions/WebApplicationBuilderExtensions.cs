@@ -1,10 +1,10 @@
-using general.purpose.poc.Constants;
+using bobbylite.realmikefacts.web.Constants;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
-using AppAuthorizationOptions = general.purpose.poc.Models.Configuration.AuthorizationOptions;
+using AppAuthorizationOptions = bobbylite.realmikefacts.web.Models.Configuration.AuthorizationOptions;
 
-namespace general.purpose.poc.Extensions;
+namespace bobbylite.realmikefacts.web.Extensions;
 
 /// <summary>
 /// Extension methods for <see cref="WebApplicationBuilder"/>.

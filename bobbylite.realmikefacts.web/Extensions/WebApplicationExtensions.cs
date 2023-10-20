@@ -1,4 +1,4 @@
-namespace general.purpose.poc.Extensions;
+namespace bobbylite.realmikefacts.web.Extensions;
 
 /// <summary>
 /// Extension methods for <see cref="WebApplication"/>.

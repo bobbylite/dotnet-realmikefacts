@@ -1,4 +1,4 @@
-namespace general.purpose.poc.Constants;
+namespace bobbylite.realmikefacts.web.Constants;
 
 /// <summary>
 /// Constants representing the names of authorization policies.
