@@ -56,7 +56,7 @@ jobs:
         run: dotnet build
 
       - name: Run unit tests
-        run: dotnet test --no-restore --verbosity normal
+        run: dotnet test bobbylite.realmikefacts.tests/bobbylite.realmikefacts.tests.csproj
         
   build:
     runs-on: windows-latest
