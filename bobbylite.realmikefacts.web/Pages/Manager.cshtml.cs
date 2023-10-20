@@ -13,19 +13,18 @@ public class ManagerModel : PageModel
     private readonly ILogger<ManagerModel> _logger;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="IndexModel"/> class.
+    /// Initializes a new instance of the <see cref="ManagerModel"/> class.
     /// </summary>
     /// <param name="logger">Logger from DI.</param>
     public ManagerModel(ILogger<ManagerModel> logger)
     {
         _logger = logger;
     }
-    
+
     /// <summary>
     /// Runs on get.
     /// </summary>
     public void OnGet()
     {
-        
     }
 }
