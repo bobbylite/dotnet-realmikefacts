@@ -56,7 +56,7 @@ jobs:
         run: dotnet build
 
       - name: Run unit tests
-        run: dotnet test bobbylite.realmikefacts.tests/bobbylite.realmikefacts.tests.csproj
+        run: dotnet test bobbylite.realmikefacts.tests/bobbylite.realmikefacts.tests.csproj -c release --blame-hang-timeout 15s --blame-hang-dump-type full --blame-crash-dump-type full
         
   build:
     runs-on: windows-latest
