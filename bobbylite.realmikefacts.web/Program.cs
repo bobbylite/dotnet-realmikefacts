@@ -2,9 +2,11 @@ using bobbylite.realmikefacts.web.Extensions;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-builder.AddMvc();
+builder.AddConfiguration();
 builder.AddAuthentication();
 builder.AddAuthorization();
+builder.AddHttpClients();
+builder.AddServices();
 
 WebApplication app = builder.Build();
 

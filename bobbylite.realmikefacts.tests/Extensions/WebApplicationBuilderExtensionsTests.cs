@@ -11,44 +11,6 @@ namespace bobbylite.realmikefacts.tests.Extensions;
 public class WebApplicationBuilderExtensionsTests
 {
     [Fact]
-    public void AddMvcWithNullWebApplicationBuilderThrowsException()
-    {
-        // arrange
-        WebApplicationBuilder? webApplicationBuilder = null;
-
-        // act & assert
-        var ex = Assert.Throws<ArgumentNullException>(() =>  
-            webApplicationBuilder!.AddMvc());
-        Assert.Contains("webApplicationBuilder", ex.Message);
-    }
-    
-    [Theory]
-    [InlineData("Development", true)]
-    [InlineData("Production", false)]
-    public void AddMvcAddsRuntimeComplication(string environment, bool expectService)
-    {
-        // arrange
-        WebApplicationBuilder webApplicationBuilder = WebApplication.CreateBuilder();
-        webApplicationBuilder.Environment.EnvironmentName = environment;
-
-        // act
-        webApplicationBuilder.AddMvc();
-        
-        // assert
-        Assert.NotEmpty(webApplicationBuilder.Services);
-        if (expectService)
-        {
-            Assert.Contains(webApplicationBuilder.Services, s =>
-                s.ServiceType == typeof(RazorProjectFileSystem));
-        }
-        else
-        {
-            Assert.DoesNotContain(webApplicationBuilder.Services, s =>
-                s.ServiceType == typeof(RazorProjectFileSystem));
-        }
-    }
-    
-    [Fact]
     public void AddAuthenticationWithNullWebApplicationBuilderThrowsException()
     {
         // arrange

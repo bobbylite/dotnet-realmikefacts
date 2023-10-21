@@ -1,6 +1,7 @@
 @page
 @model bobbylite.realmikefacts.web.Pages.ManagerModel
 
+
 @{
     ViewData["Title"] = "Manager page";
     Layout = "_Layout";
@@ -16,6 +17,25 @@
             Being a manager for Real Mike Facts grants you permission to tweet 
             <br/>
             from the <a href="">@@RealMikeFacts</a> twitter account.
+        </div>
+        <br/>
+        <br/>
+        <form method="post">
+            <button class="btn btn-success" id="myButton">Authorize Twitter</button>
+        </form>
+        <div class="nav-link text-light">
+            Twitter API Access Token: @Model.Message
+        </div>
+        <br/>
+        <br/>
+        <div class="nav-link text-light">
+            Authorization Implementation is based on the Client Credentials Grant flow of the OAuth 2 specification.
+            <br/>
+            <br/>
+            OAuth2 Client Credentials Flow: https://datatracker.ietf.org/doc/html/rfc6749#section-4.4
+            <br/>
+            Twitter OAuth 2.0 Flow: https://developer.twitter.com/en/docs/authentication/oauth-2-0/application-only
+            <br/>
         </div>
     }
 </div>

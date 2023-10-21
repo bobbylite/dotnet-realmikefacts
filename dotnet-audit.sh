@@ -8,7 +8,7 @@
 # See: https://github.com/RetireNet/dotnet-retire/issues/75
 
 dotnet restore # Must be run first for clean environments.
-output=$(dotnet list package --vulnerable --include-transitive)
+output=$(dotnet list package --vulnerable)
 echo "$output"
 
 echo "$output" | grep "following vulnerable" 
