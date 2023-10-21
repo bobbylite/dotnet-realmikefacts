@@ -16,11 +16,6 @@ public class TwitterOptions
     public string BaseUrl { get; set; } = string.Empty;
     
     /// <summary>
-    /// Twitter token.
-    /// </summary>
-    public string Token { get; set; } = string.Empty;
-    
-    /// <summary>
     /// Twitter client id.
     /// </summary>
     public string ClientId { get; set; } = string.Empty;
