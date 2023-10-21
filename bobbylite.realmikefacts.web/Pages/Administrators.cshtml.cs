@@ -5,22 +5,22 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace bobbylite.realmikefacts.web.Pages;
 
 /// <summary>
-/// Manager page model.
+/// Administrators page model.
 /// </summary>
-[Authorize(Policy = PolicyNames.Users)]
-public class ManagerModel : PageModel
+[Authorize(Policy = PolicyNames.Administrators)]
+public class AdministratorsModel : PageModel
 {
-    private readonly ILogger<ManagerModel> _logger;
-
+    private readonly ILogger<AdministratorsModel> _logger;
+    
     /// <summary>
     /// Initializes a new instance of the <see cref="ManagerModel"/> class.
     /// </summary>
     /// <param name="logger">Logger from DI.</param>
-    public ManagerModel(ILogger<ManagerModel> logger)
+    public AdministratorsModel(ILogger<AdministratorsModel> logger)
     {
         _logger = logger;
     }
-
+    
     /// <summary>
     /// Runs on get.
     /// </summary>
