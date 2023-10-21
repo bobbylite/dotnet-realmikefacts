@@ -40,9 +40,16 @@ public class ManagerModel : PageModel
     }
 
     /// <summary>
-    /// Runs on get.
+    /// Executed when get action is triggered.
     /// </summary>
     public async Task OnGet()
+    {
+    }
+
+    /// <summary>
+    /// Executed when post action is triggered.
+    /// </summary>
+    public async Task OnPost()
     {
         await _tokenService.SetAccessToken();
         Message = _tokenService.Token.AccessToken!;
