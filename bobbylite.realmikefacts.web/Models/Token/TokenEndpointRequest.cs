@@ -8,20 +8,8 @@ namespace bobbylite.realmikefacts.web.Models.Token;
 public class TokenEndpointRequest
 {
     /// <summary>
-    /// 
+    /// Flow type for OAuth 2.0 request.
     /// </summary>
     [JsonPropertyName("grant_type")]
     public string? GrantType { get; set; }
-    
-    /// <summary>
-    /// The username for the authentication credentials.
-    /// </summary>
-    //[JsonPropertyName("userName")]
-    //public string? Username { get; set; }
-    
-    /// <summary>
-    /// The password for the authentication credentials.
-    /// </summary>
-    //[JsonPropertyName("password")]
-    //public string? Password { get; set; }
 }

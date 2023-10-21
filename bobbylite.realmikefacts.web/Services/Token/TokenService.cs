@@ -1,6 +1,3 @@
-using System.Net;
-using System.Net.Mime;
-using System.Text;
 using System.Text.Json;
 using Ardalis.GuardClauses;
 using bobbylite.realmikefacts.web.Configuration;
@@ -9,8 +6,6 @@ using bobbylite.realmikefacts.web.Extensions;
 using bobbylite.realmikefacts.web.Models.Token;
 using Flurl;
 using Microsoft.Extensions.Options;
-using Microsoft.Net.Http.Headers;
-using Environment = System.Environment;
 using MediaTypeHeaderValue = System.Net.Http.Headers.MediaTypeHeaderValue;
 
 namespace bobbylite.realmikefacts.web.Services.Token;
@@ -52,7 +47,7 @@ public class TokenService : ITokenService
         content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
         
         HttpClient httpClient = _httpClientFactory.CreateClient(HttpClientNames.TwitterApi);
-        httpClient.AddBasicAuthorization(_twitterOptions.ClientId, _twitterOptions.ClientSecret);
+        httpClient.AddAuthorization(_twitterOptions.ClientId, _twitterOptions.ClientSecret);
 
         string requestUri = _twitterOptions.BaseUrl
             .AppendPathSegments("oauth2", "token");

@@ -32,6 +32,5 @@ public class TwitterService : ITwitterService
     /// <inheritdoc />
     public async Task Tweet()
     {
-        await _tokenService.SetAccessToken();
     }
 }

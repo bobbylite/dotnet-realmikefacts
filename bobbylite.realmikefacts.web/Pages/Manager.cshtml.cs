@@ -28,6 +28,7 @@ public class ManagerModel : PageModel
     /// <param name="logger">Logger from DI.</param>
     /// <param name="twitterService"></param>
     /// <param name="httpClientFactory"></param>
+    /// <param name="tokenService"></param>
     public ManagerModel(ILogger<ManagerModel> logger, 
         ITwitterService twitterService, 
         IHttpClientFactory httpClientFactory,
