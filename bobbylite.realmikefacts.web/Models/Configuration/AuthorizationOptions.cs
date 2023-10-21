@@ -1,7 +1,7 @@
 namespace bobbylite.realmikefacts.web.Models.Configuration;
 
 /// <summary>
-/// The configuration options for authorization of requested web resources.
+/// Authorization options.
 /// </summary>
 public class AuthorizationOptions
 {
@@ -11,34 +11,34 @@ public class AuthorizationOptions
     public class AuthorizationClaim
     {
         /// <summary>
-        /// Gets or sets the claim type required - e.g. "groups".
+        /// Gets or sets the claim type.
         /// </summary>
         public string ClaimType { get; set; } = "";
 
         /// <summary>
-        /// Gets or sets values the claim must process one or more of for evaluation to succeed.
+        /// Gets or sets allowed values.
         /// </summary>
         public List<string> AllowedValues { get; set; } = new ();
     }
 
     /// <summary>
-    /// A policy definition for enforcing authorization.
+    /// Authorization Policy.
     /// </summary>
     public class AuthorizationPolicy
     {
         /// <summary>
-        /// Gets or sets the claim(s) required by the authorization policy.
+        /// Gets or sets the required claims of the policy.
         /// </summary>
         public List<AuthorizationClaim> RequiredClaims { get; set; } = new ();
     }
 
     /// <summary>
-    /// The section key used to define the options bound to this class (e.g. in appsettings.json).
+    /// Section key represents an appsettings.json value.
     /// </summary>
     public const string SectionKey = "Authorization";
 
     /// <summary>
-    /// Gets or sets the policies defined for enforcing authorization based on required claims.
+    /// Gets or sets the policies.
     /// </summary>
     public Dictionary<string, AuthorizationPolicy> Policies { get; set; } = new ();
 }
