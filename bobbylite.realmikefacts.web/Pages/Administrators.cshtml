@@ -1,0 +1,19 @@
+@page
+@model bobbylite.realmikefacts.web.Pages.AdministratorsModel
+
+@{
+    ViewData["Title"] = "Administrator page";
+    Layout = "_Layout";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Real Mike Facts Administrator Page</h1>
+
+    @if (User.Identity!.IsAuthenticated)
+    {
+        <div class="nav-link text-light">Hello @User.Identity.Name,</div>
+        <div class="nav-link text-light">
+            Being an administrator for Real Mike Facts grants super user access.
+        </div>
+    }
+</div>
