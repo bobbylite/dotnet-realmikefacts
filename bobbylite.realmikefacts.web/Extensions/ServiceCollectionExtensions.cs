@@ -1,6 +1,7 @@
 using Ardalis.GuardClauses;
 using bobbylite.realmikefacts.web.Configuration;
 using bobbylite.realmikefacts.web.Constants;
+using bobbylite.realmikefacts.web.Services.OpenAI;
 using bobbylite.realmikefacts.web.Services.Token;
 using bobbylite.realmikefacts.web.Services.Twitter;
 
@@ -21,7 +22,8 @@ public static class ServiceCollectionExtensions
     {
         Guard.Against.Null(serviceCollection);
         Guard.Against.Null(configuration);
-        
+
+        serviceCollection.Configure<OpenAiOptions>(configuration.GetSection(OpenAiOptions.SectionKey));
         serviceCollection.Configure<TwitterOptions>(configuration.GetSection(TwitterOptions.SectionKey));
         
         serviceCollection.AddLogging(loggingBuilder =>
@@ -44,6 +46,7 @@ public static class ServiceCollectionExtensions
         Guard.Against.Null(serviceCollection);
         Guard.Against.Null(configuration);
 
+        serviceCollection.AddOpenAiHttpClients();
         serviceCollection.AddTwitterHttpClients();
 
         return serviceCollection;
@@ -59,10 +62,19 @@ public static class ServiceCollectionExtensions
     {
         Guard.Against.Null(serviceCollection);
         Guard.Against.Null(configuration);
-        
-        serviceCollection.AddSingleton<ITwitterService, TwitterService>();
-        serviceCollection.AddSingleton<ITokenService, TokenService>();
 
+        serviceCollection.AddSingleton<IOpenAiService, OpenAiService>();
+        serviceCollection.AddSingleton<ITokenService, TokenService>();
+        serviceCollection.AddSingleton<ITwitterService, TwitterService>();
+
+        return serviceCollection;
+    }
+    
+    private static IServiceCollection AddOpenAiHttpClients(this IServiceCollection serviceCollection)
+    {
+        serviceCollection
+            .AddHttpClient(HttpClientNames.OpenAi);
+        
         return serviceCollection;
     }
     

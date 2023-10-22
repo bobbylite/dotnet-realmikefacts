@@ -1,15 +1,11 @@
-using System.Text;
-using System.Text.Json;
 using Ardalis.GuardClauses;
 using bobbylite.realmikefacts.web.Constants;
-using bobbylite.realmikefacts.web.Models.OpenAI;
+using bobbylite.realmikefacts.web.Services.OpenAI;
 using bobbylite.realmikefacts.web.Services.Token;
 using bobbylite.realmikefacts.web.Services.Twitter;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Net.Http.Headers;
-using MediaTypeHeaderValue = System.Net.Http.Headers.MediaTypeHeaderValue;
 
 namespace bobbylite.realmikefacts.web.Pages;
 
@@ -19,8 +15,8 @@ namespace bobbylite.realmikefacts.web.Pages;
 [Authorize(Policy = PolicyNames.Users)]
 public class ManagerModel : PageModel
 {
+    private readonly IOpenAiService _openAiService;
     private readonly ILogger<ManagerModel> _logger;
-    private readonly ITwitterService _twitterService;
     private readonly ITokenService _tokenService;
 
     /// <summary>
@@ -44,15 +40,15 @@ public class ManagerModel : PageModel
     /// <summary>
     /// Initializes a new instance of the <see cref="ManagerModel"/> class.
     /// </summary>
+    /// <param name="openAiService"></param>
     /// <param name="logger">Logger from DI.</param>
-    /// <param name="twitterService"></param>
     /// <param name="tokenService"></param>
-    public ManagerModel(ILogger<ManagerModel> logger, 
-        ITwitterService twitterService,
+    public ManagerModel(IOpenAiService openAiService,
+        ILogger<ManagerModel> logger, 
         ITokenService tokenService)
     {
+        _openAiService = Guard.Against.Null(openAiService);
         _logger = Guard.Against.Null(logger);
-        _twitterService = Guard.Against.Null(twitterService);
         _tokenService = Guard.Against.Null(tokenService);
     }
 
@@ -61,6 +57,7 @@ public class ManagerModel : PageModel
     /// </summary>
     public async Task OnGet()
     {
+        _logger.LogInformation("GET - {PageModel}", nameof(ManagerModel));
     }
 
     /// <summary>
@@ -68,41 +65,14 @@ public class ManagerModel : PageModel
     /// </summary>
     public async Task OnPost()
     {
-        Message = string.Empty;
-        var httpClient = new HttpClient();
-        httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, "api.openai.com");
-        httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, "keep-alive");
+        _logger.LogInformation("POST - {PageModel}", nameof(ManagerModel));
         
-        string apiKey = "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";
-        string endpoint = "https://api.openai.com/v1/completions";  // Adjust the endpoint accordingly
-
-        // Prepare the request data
-        var requestData = new
-        {
-            prompt = $"{Message}. Answer as someone named Mike; a cyber security analyst.",
-            max_tokens = 50,
-            model = "gpt-3.5-turbo-instruct",
-            temperature = 0.7
-        };
-
-        var requestDataJson = JsonSerializer.Serialize(requestData);
-        var content = new StringContent(requestDataJson, Encoding.UTF8, "application/json");
-        content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
-
-        var response = await httpClient.PostAsync(endpoint, content);
-        var responseContent = await response.Content.ReadAsStringAsync();
-        var deserialized = JsonSerializer.Deserialize<CompletionModel>(responseContent);
-
-        if (response.IsSuccessStatusCode)
-        {
-            Message = deserialized?.Choices?.SingleOrDefault()?.Text ?? throw new NullOrEmptyAuthorizationTokenException();
-            CharacterCount = $"{Message.Length}ch";
-            WidthCount = $"{Message.Length}";
-        }
-        else
-        {
-
-        }
+        var completionResult = await _openAiService.CreateCompletions(Message);
+        Message = completionResult?.Choices?.SingleOrDefault()?.Text 
+                  ?? throw new NullOrEmptyStringException();
+        CharacterCount = $"{Message.Length}ch";
+        WidthCount = $"{Message.Length}";
+        
+        _logger.LogInformation("Completed OnPost successfully.");
     }
 }

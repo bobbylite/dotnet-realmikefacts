@@ -6,7 +6,7 @@ namespace bobbylite.realmikefacts.web.Configuration;
 public class TwitterOptions
 {
     /// <summary>
-    /// Section key for PingOne options.
+    /// Section key for Twitter options.
     /// </summary>
     public const string SectionKey = "Twitter";
     

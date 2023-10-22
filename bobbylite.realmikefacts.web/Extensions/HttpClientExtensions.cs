@@ -11,6 +11,23 @@ namespace bobbylite.realmikefacts.web.Extensions;
 public static class HttpClientExtensions
 {
     /// <summary>
+    /// Adds authorization to the OpenAI <see cref="HttpClient"/>
+    /// </summary>
+    /// <param name="httpClient"></param>
+    /// <param name="apiToken"></param>
+    /// <returns></returns>
+    public static HttpClient AddAuthorization(this HttpClient httpClient, string apiToken)
+    {
+        Guard.Against.Null(httpClient);
+        
+        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiToken}");
+        httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, "keep-alive");
+        httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, "api.openai.com");
+        
+        return httpClient;
+    }
+        
+    /// <summary>
     /// Adds basic authorization for twitter api.
     /// </summary>
     /// <param name="httpClient"></param>

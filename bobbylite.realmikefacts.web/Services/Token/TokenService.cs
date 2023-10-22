@@ -20,7 +20,7 @@ public class TokenService : ITokenService
     private readonly IHttpClientFactory _httpClientFactory;
 
     /// <summary>
-    /// Token model for creating PingOne API requests.
+    /// Token model for creating API requests.
     /// </summary>
     public TokenEndpointResponse? Token { get; set; } 
 
