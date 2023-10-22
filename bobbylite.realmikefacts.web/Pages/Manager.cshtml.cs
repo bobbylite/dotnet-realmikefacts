@@ -61,6 +61,14 @@ public class ManagerModel : PageModel
     /// </summary>
     public async Task OnGet()
     {
+    }
+
+    /// <summary>
+    /// Executed when post action is triggered.
+    /// </summary>
+    public async Task OnPost()
+    {
+        Message = string.Empty;
         var httpClient = new HttpClient();
         httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, "api.openai.com");
         httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, "keep-alive");
@@ -71,7 +79,7 @@ public class ManagerModel : PageModel
         // Prepare the request data
         var requestData = new
         {
-            prompt = "Introduce yourself as Mike AI trained on cyber security.'",
+            prompt = $"{Message}. Answer as someone named Mike; a cyber security analyst.",
             max_tokens = 50,
             model = "gpt-3.5-turbo-instruct",
             temperature = 0.7
@@ -80,11 +88,8 @@ public class ManagerModel : PageModel
         var requestDataJson = JsonSerializer.Serialize(requestData);
         var content = new StringContent(requestDataJson, Encoding.UTF8, "application/json");
         content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-
-        // Set your API key in the request headers
         httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
 
-        // Make the API request
         var response = await httpClient.PostAsync(endpoint, content);
         var responseContent = await response.Content.ReadAsStringAsync();
         var deserialized = JsonSerializer.Deserialize<CompletionModel>(responseContent);
@@ -97,15 +102,7 @@ public class ManagerModel : PageModel
         }
         else
         {
-            // Handle API request error
-            // You can check response.StatusCode and response.ReasonPhrase for details
-        }
-    }
 
-    /// <summary>
-    /// Executed when post action is triggered.
-    /// </summary>
-    public void OnPost()
-    {
+        }
     }
 }

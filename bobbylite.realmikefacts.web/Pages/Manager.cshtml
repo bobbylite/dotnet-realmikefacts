@@ -29,32 +29,36 @@
       }
     }
 
-    .typing-demo {
-      width: @Model.CharacterCount;
-      animation: typing 5s steps(@Model.WidthCount), blink .5s step-end infinite alternate;
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 3px solid;
-      font-family: monospace;
-      font-size: 2em;
-      display: block;
+    .typing-container {
+        position: relative;
     }
     
-    @@keyframes typing {
-      from {
-        width: 0
-      }
+    #typing-text {
+        display: none; /* Hide text initially */
+        font-size: 24px;
+    }
+    
+    #typing-cursor::after {
+        content: "|"; /* Blinking cursor */
+        animation: blink 1s infinite;
     }
     
     @@keyframes blink {
-      50% {
-        border-color: transparent
-      }
+        0% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
     }
 </style>
 <div class="text-center">
-    <h1 class="display-4">Real Mike Facts Managers</h1>
-    
+    <img src="https://raw.githubusercontent.com/bobbylite/realmikefacts/master/img/Real-Mike-Facts-Logo-1.png" alt="Mike" width="50" height="50">
+    <br/>
+    <h1 class="display-4">Meet Mike</h1>
     <div class="nav-link text-light">
         <div class="nav-link text-light">Hello @User.Identity!.Name,</div>
         Being a manager for Real Mike Facts grants you permission to interact with
@@ -66,8 +70,8 @@
     @if (User.Identity!.IsAuthenticated)
     {
         <div style="text-align: -webkit-center">
-            <div id="ticker">
-                <div id="typingDemo" class="typing-demo">
+            <div class="typing-container">
+                <div id="typingDemo">
                     <p>@Model.Message</p>
                 </div>
             </div>
@@ -83,14 +87,22 @@
 </div>
 
 <script>
-setTimeout(function() {
-    // Get the element by its ID
-    var element = document.getElementById("ticker");
-    
-    // Check if the element exists
-    if (element) {
-      // Add the CSS class to the element
-      element.classList.add("ticker");
+document.addEventListener("DOMContentLoaded", function() {
+    const textElement = document.getElementById("typingDemo");
+    const text = textElement.textContent;
+    textElement.textContent = "";
+    textElement.style.display = "inline-block";
+
+    let index = 0;
+
+    function typeText() {
+        if (index < text.length) {
+            textElement.textContent += text.charAt(index);
+            index++;
+            setTimeout(typeText, 100); // Adjust typing speed (in milliseconds) here
+        }
     }
-  }, 3000); // 3000 milliseconds (3 seconds)
+
+    typeText();
+});
 </script>
