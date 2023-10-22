@@ -11,12 +11,12 @@ public static class PolicyNames
     public const string Managers = "Managers";
     
     /// <summary>
-    /// Constant representing the name of the Managers authorization policy.
+    /// Constant representing the name of the Users authorization policy.
     /// </summary>
     public const string Users = "Users";
     
     /// <summary>
-    /// Constant representing the name of the Managers authorization policy.
+    /// Constant representing the name of the Administrators authorization policy.
     /// </summary>
     public const string Administrators = "Administrators";
 }

@@ -12,8 +12,7 @@ namespace bobbylite.realmikefacts.web.Extensions;
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Registers the options types used for configuration by the application with the specified service collection
-    /// and binds the options types the given configuration instance.
+    /// Configuration for options and appsettings.
     /// </summary>
     /// <param name="serviceCollection"></param>
     /// <param name="configuration"></param>
@@ -23,10 +22,8 @@ public static class ServiceCollectionExtensions
         Guard.Against.Null(serviceCollection);
         Guard.Against.Null(configuration);
         
-        // Add configuration service
         serviceCollection.Configure<TwitterOptions>(configuration.GetSection(TwitterOptions.SectionKey));
-
-        // Add logging service
+        
         serviceCollection.AddLogging(loggingBuilder =>
         {
             loggingBuilder.ClearProviders();
@@ -37,11 +34,10 @@ public static class ServiceCollectionExtensions
     }
     
     /// <summary>
-    /// 
+    /// Adds <see cref="HttpClient"/> to be initialized from <see cref="IHttpClientFactory"/>.
     /// </summary>
     /// <param name="serviceCollection"></param>
     /// <param name="configuration"></param>
-    /// <param name="logger"></param>
     /// <returns></returns>
     public static IServiceCollection AddHttpClients(this IServiceCollection serviceCollection, IConfiguration configuration)
     {
@@ -54,7 +50,7 @@ public static class ServiceCollectionExtensions
     }
     
     /// <summary>
-    /// 
+    /// Adds services to dependency injection.
     /// </summary>
     /// <param name="serviceCollection"></param>
     /// <param name="configuration"></param>

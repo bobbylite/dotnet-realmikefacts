@@ -20,7 +20,7 @@ public class TokenService : ITokenService
     private readonly IHttpClientFactory _httpClientFactory;
 
     /// <summary>
-    /// Token model for creating PingOne API requests. 
+    /// Token model for creating PingOne API requests.
     /// </summary>
     public TokenEndpointResponse? Token { get; set; } 
 
@@ -40,14 +40,14 @@ public class TokenService : ITokenService
     }
     
     /// <inheritdoc />
-    public async Task SetAccessToken()
+    public async Task<TokenEndpointResponse> SetAccessToken()
     {
         var urlEncodedFormData = new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("grant_type", "client_credentials") };
         var content = new FormUrlEncodedContent(urlEncodedFormData);
         content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
         
         HttpClient httpClient = _httpClientFactory.CreateClient(HttpClientNames.TwitterApi);
-        httpClient.AddAuthorization(_twitterOptions.ClientId, _twitterOptions.ClientSecret);
+        httpClient.AddBasicAuthorizationHeaders(_twitterOptions.ClientId, _twitterOptions.ClientSecret);
 
         string requestUri = _twitterOptions.BaseUrl
             .AppendPathSegments("oauth2", "token");
@@ -64,6 +64,8 @@ public class TokenService : ITokenService
 
         var tokenResponse = JsonSerializer.Deserialize<TokenEndpointResponse>(responseContent);
 
-        Token = tokenResponse ?? throw new Exception("ErrorAuthenticating");
+        Token = tokenResponse ?? throw new NullOrEmptyAuthorizationTokenException();
+
+        return tokenResponse;
     }
 }

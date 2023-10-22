@@ -1,9 +1,6 @@
 using Ardalis.GuardClauses;
-using bobbylite.realmikefacts.web.Configuration;
-using bobbylite.realmikefacts.web.Constants;
-using bobbylite.realmikefacts.web.Extensions;
 using bobbylite.realmikefacts.web.Services.Token;
-using Microsoft.Extensions.Options;
+using TwitterOptions = bobbylite.realmikefacts.web.Configuration.TwitterOptions;
 
 namespace bobbylite.realmikefacts.web.Services.Twitter;
 
@@ -14,6 +11,7 @@ public class TwitterService : ITwitterService
 {
     private readonly ILogger<TwitterService> _logger;
     private readonly ITokenService _tokenService;
+    private readonly IHttpClientFactory _httpClientFactory;
 
     /// <summary>
     /// Initializes an instance of <see cref="ITwitterService"/>
@@ -25,6 +23,7 @@ public class TwitterService : ITwitterService
         IHttpClientFactory httpClientFactory, 
         ITokenService tokenService)
     {
+        _httpClientFactory = httpClientFactory;
         _logger = Guard.Against.Null(logger);
         _tokenService = Guard.Against.Null(tokenService);
     }
