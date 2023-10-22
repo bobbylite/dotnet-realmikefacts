@@ -2,7 +2,6 @@ using Ardalis.GuardClauses;
 using bobbylite.realmikefacts.web.Constants;
 using bobbylite.realmikefacts.web.Services.OpenAI;
 using bobbylite.realmikefacts.web.Services.Token;
-using bobbylite.realmikefacts.web.Services.Twitter;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -13,10 +12,11 @@ namespace bobbylite.realmikefacts.web.Pages;
 /// Manager page model.
 /// </summary>
 [Authorize(Policy = PolicyNames.Users)]
-public class ManagerModel : PageModel
+[Authorize(Policy = PolicyNames.BetaTesters)]
+public class UserModel : PageModel
 {
     private readonly IOpenAiService _openAiService;
-    private readonly ILogger<ManagerModel> _logger;
+    private readonly ILogger<UserModel> _logger;
     private readonly ITokenService _tokenService;
 
     /// <summary>
@@ -38,13 +38,13 @@ public class ManagerModel : PageModel
     public string WidthCount { get; set; } = string.Empty;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ManagerModel"/> class.
+    /// Initializes a new instance of the <see cref="UserModel"/> class.
     /// </summary>
     /// <param name="openAiService"></param>
     /// <param name="logger">Logger from DI.</param>
     /// <param name="tokenService"></param>
-    public ManagerModel(IOpenAiService openAiService,
-        ILogger<ManagerModel> logger, 
+    public UserModel(IOpenAiService openAiService,
+        ILogger<UserModel> logger, 
         ITokenService tokenService)
     {
         _openAiService = Guard.Against.Null(openAiService);
@@ -57,7 +57,7 @@ public class ManagerModel : PageModel
     /// </summary>
     public async Task OnGet()
     {
-        _logger.LogInformation("GET - {PageModel}", nameof(ManagerModel));
+        _logger.LogInformation("GET - {PageModel}", nameof(UserModel));
     }
 
     /// <summary>
@@ -65,7 +65,7 @@ public class ManagerModel : PageModel
     /// </summary>
     public async Task OnPost()
     {
-        _logger.LogInformation("POST - {PageModel}", nameof(ManagerModel));
+        _logger.LogInformation("POST - {PageModel}", nameof(UserModel));
         
         var completionResult = await _openAiService.CreateCompletions(Message);
         Message = completionResult?.Choices?.SingleOrDefault()?.Text 

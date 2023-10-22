@@ -16,6 +16,11 @@ public static class PolicyNames
     public const string Users = "Users";
     
     /// <summary>
+    /// Constant representing the name of the Users authorization policy.
+    /// </summary>
+    public const string BetaTesters = "BetaTesters";
+    
+    /// <summary>
     /// Constant representing the name of the Administrators authorization policy.
     /// </summary>
     public const string Administrators = "Administrators";
