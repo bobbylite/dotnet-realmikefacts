@@ -1,6 +1,7 @@
 using Ardalis.GuardClauses;
 using bobbylite.realmikefacts.web.Configuration;
 using bobbylite.realmikefacts.web.Constants;
+using bobbylite.realmikefacts.web.Services.OpenAI;
 using bobbylite.realmikefacts.web.Services.Token;
 using bobbylite.realmikefacts.web.Services.Twitter;
 
@@ -12,8 +13,7 @@ namespace bobbylite.realmikefacts.web.Extensions;
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Registers the options types used for configuration by the application with the specified service collection
-    /// and binds the options types the given configuration instance.
+    /// Configuration for options and appsettings.
     /// </summary>
     /// <param name="serviceCollection"></param>
     /// <param name="configuration"></param>
@@ -22,11 +22,10 @@ public static class ServiceCollectionExtensions
     {
         Guard.Against.Null(serviceCollection);
         Guard.Against.Null(configuration);
-        
-        // Add configuration service
-        serviceCollection.Configure<TwitterOptions>(configuration.GetSection(TwitterOptions.SectionKey));
 
-        // Add logging service
+        serviceCollection.Configure<OpenAiOptions>(configuration.GetSection(OpenAiOptions.SectionKey));
+        serviceCollection.Configure<TwitterOptions>(configuration.GetSection(TwitterOptions.SectionKey));
+        
         serviceCollection.AddLogging(loggingBuilder =>
         {
             loggingBuilder.ClearProviders();
@@ -37,24 +36,24 @@ public static class ServiceCollectionExtensions
     }
     
     /// <summary>
-    /// 
+    /// Adds <see cref="HttpClient"/> to be initialized from <see cref="IHttpClientFactory"/>.
     /// </summary>
     /// <param name="serviceCollection"></param>
     /// <param name="configuration"></param>
-    /// <param name="logger"></param>
     /// <returns></returns>
     public static IServiceCollection AddHttpClients(this IServiceCollection serviceCollection, IConfiguration configuration)
     {
         Guard.Against.Null(serviceCollection);
         Guard.Against.Null(configuration);
 
+        serviceCollection.AddOpenAiHttpClients();
         serviceCollection.AddTwitterHttpClients();
 
         return serviceCollection;
     }
     
     /// <summary>
-    /// 
+    /// Adds services to dependency injection.
     /// </summary>
     /// <param name="serviceCollection"></param>
     /// <param name="configuration"></param>
@@ -63,10 +62,19 @@ public static class ServiceCollectionExtensions
     {
         Guard.Against.Null(serviceCollection);
         Guard.Against.Null(configuration);
-        
-        serviceCollection.AddSingleton<ITwitterService, TwitterService>();
-        serviceCollection.AddSingleton<ITokenService, TokenService>();
 
+        serviceCollection.AddSingleton<IOpenAiService, OpenAiService>();
+        serviceCollection.AddSingleton<ITokenService, TokenService>();
+        serviceCollection.AddSingleton<ITwitterService, TwitterService>();
+
+        return serviceCollection;
+    }
+    
+    private static IServiceCollection AddOpenAiHttpClients(this IServiceCollection serviceCollection)
+    {
+        serviceCollection
+            .AddHttpClient(HttpClientNames.OpenAi);
+        
         return serviceCollection;
     }
     

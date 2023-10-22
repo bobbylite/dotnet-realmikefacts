@@ -11,7 +11,7 @@ public interface ITokenService
     /// Sets the token property after making an authentication request.
     /// </summary>
     /// <returns></returns>
-    public Task SetAccessToken();
+    public Task<TokenEndpointResponse> SetAccessToken();
     
     /// <summary>
     /// Token.

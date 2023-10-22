@@ -6,36 +6,101 @@
     ViewData["Title"] = "Manager page";
     Layout = "_Layout";
 }
+<style>
+    /* CSS for a text ticker */
+    .ticker {
+      overflow: hidden; /* Hide the overflow */
+      white-space: nowrap; /* Prevent wrapping of text */
+      position: relative;
+    }
+    
+    .ticker p {
+      display: inline-block;
+      /*margin-right: 100%; /* Move text far to the right, creating a scrolling effect */
+      animation: ticker 30s linear infinite; /* Adjust the time as needed */
+    }
+    
+    @@keyframes ticker {
+      0% {
+        transform: translateX(100%); /* Start from the right and move left */
+      }
+      100% {
+        transform: translateX(-100%); /* End on the left, creating a loop */
+      }
+    }
 
+    .typing-container {
+        position: relative;
+    }
+    
+    #typing-text {
+        display: none; /* Hide text initially */
+        font-size: 24px;
+    }
+    
+    #typing-cursor::after {
+        content: "|"; /* Blinking cursor */
+        animation: blink 1s infinite;
+    }
+    
+    @@keyframes blink {
+        0% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+</style>
 <div class="text-center">
-    <h1 class="display-4">Real Mike Facts Manager Page</h1>
-
+    <h1 class="display-4"><img style="padding-right: 20px; padding-bottom: 10px" src="https://raw.githubusercontent.com/bobbylite/realmikefacts/master/img/Real-Mike-Facts-Logo-1.png" alt="Mike" width="70" height="60">Meet Mike</h1>
+    <div class="nav-link text-light">
+        <div class="nav-link text-light">Hello @User.Identity!.Name,</div>
+        Being a manager for Real Mike Facts grants you permission to interact with
+        <br/>
+        a trained open ai version of Mike.
+    </div>
+    <br/>
+    <br/>
     @if (User.Identity!.IsAuthenticated)
     {
-        <div class="nav-link text-light">Hello @User.Identity.Name,</div>
-        <div class="nav-link text-light">
-            Being a manager for Real Mike Facts grants you permission to tweet 
-            <br/>
-            from the <a href="">@@RealMikeFacts</a> twitter account.
-        </div>
-        <br/>
-        <br/>
-        <form method="post">
-            <button class="btn btn-success" id="myButton">Authorize Twitter</button>
-        </form>
-        <div class="nav-link text-light">
-            Twitter API Access Token: @Model.Message
-        </div>
-        <br/>
-        <br/>
-        <div class="nav-link text-light">
-            Authorization Implementation is based on the Client Credentials Grant flow of the OAuth 2 specification.
+        <div style="text-align: -webkit-center">
+            <div class="typing-container">
+                <div id="typingDemo">
+                    <p>@Model.Message</p>
+                </div>
+            </div>
             <br/>
             <br/>
-            OAuth2 Client Credentials Flow: https://datatracker.ietf.org/doc/html/rfc6749#section-4.4
-            <br/>
-            Twitter OAuth 2.0 Flow: https://developer.twitter.com/en/docs/authentication/oauth-2-0/application-only
-            <br/>
+            <form method="post">
+                <input asp-for="Message" style="max-width: 600px" class="form-control form-control-lg" type="text" placeholder="Talk to Mike himself...">
+                <br/>
+                <button class="btn btn-success" id="updateButton">Submit</button>
+            </form>
         </div>
     }
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const textElement = document.getElementById("typingDemo");
+    const text = textElement.textContent;
+    textElement.textContent = "";
+    textElement.style.display = "inline-block";
+
+    let index = 0;
+
+    function typeText() {
+        if (index < text.length) {
+            textElement.textContent += text.charAt(index);
+            index++;
+            setTimeout(typeText, 100); // Adjust typing speed (in milliseconds) here
+        }
+    }
+
+    typeText();
+});
+</script>

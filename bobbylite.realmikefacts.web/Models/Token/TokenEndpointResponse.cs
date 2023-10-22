@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace bobbylite.realmikefacts.web.Models.Token;
 
 /// <summary>
-/// Json property representing the token response from ping.
+/// Json object representing the token response from ping.
 /// </summary>
 public class TokenEndpointResponse
 {
