@@ -13,10 +13,11 @@ public class GraphService : IGraphService
 {
     private readonly ILogger<GraphService> _logger;
     private readonly AzureOptions _azureOptions;
-    
+
     /// <summary>
     /// Initializes an instance of <see cref="GraphService"/>
     /// </summary>
+    /// <param name="logger"></param>
     /// <param name="azureOptions"></param>
     public GraphService(ILogger<GraphService> logger, IOptions<AzureOptions> azureOptions)
     {

@@ -65,14 +65,9 @@ public class UserModel : PageModel
     /// <summary>
     /// Executed when get action is triggered.
     /// </summary>
-    public async Task OnGet()
+    public void OnGet()
     {
         _logger.LogInformation("GET - {PageModel}", nameof(UserModel));
-        
-        var myUserId = User.Claims
-            .FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
-        
-        
     }
 
     /// <summary>

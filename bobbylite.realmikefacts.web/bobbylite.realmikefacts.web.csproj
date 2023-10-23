@@ -18,7 +18,7 @@
     <AnalysisMode>Recommended</AnalysisMode>
       <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
       <NoWarn>CA1848,AD0001,CA1852</NoWarn>
-      <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+      <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>

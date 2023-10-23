@@ -22,7 +22,7 @@ public class TokenService : ITokenService
     /// <summary>
     /// Token model for creating API requests.
     /// </summary>
-    public TokenEndpointResponse? Token { get; set; } 
+    public TokenEndpointResponse Token { get; set; } 
 
     /// <summary>
     /// 
@@ -37,6 +37,8 @@ public class TokenService : ITokenService
         _logger = Guard.Against.Null(logger);
         _twitterOptions = Guard.Against.Null(twitterOptions.Value);
         _httpClientFactory = Guard.Against.Null(httpClientFactory);
+
+        Token = new TokenEndpointResponse();
     }
     
     /// <inheritdoc />
