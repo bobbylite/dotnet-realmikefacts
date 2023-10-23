@@ -37,9 +37,12 @@ public static class WebApplicationBuilderExtensions
     public static WebApplicationBuilder AddAuthentication(this WebApplicationBuilder webApplicationBuilder)
     {
         Guard.Against.Null(webApplicationBuilder);
-        
-        webApplicationBuilder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-            .AddMicrosoftIdentityWebApp(webApplicationBuilder.Configuration);
+
+        webApplicationBuilder
+            .Services
+            .AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+            .Services
+            .AddMicrosoftIdentityWebAppAuthentication(webApplicationBuilder.Configuration);
 
         webApplicationBuilder.Services.AddRazorPages()
             .AddMicrosoftIdentityUI();
@@ -100,7 +103,7 @@ public static class WebApplicationBuilderExtensions
                 });
             }
         });
-
+        
         return webApplicationBuilder;
     }
 }

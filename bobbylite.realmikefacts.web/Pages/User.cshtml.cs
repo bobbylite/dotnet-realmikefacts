@@ -5,6 +5,14 @@ using bobbylite.realmikefacts.web.Services.Token;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Identity.Client;
+using System.Net.Http.Headers;
+using Azure.Identity;
+using bobbylite.realmikefacts.web.Configuration;
+using bobbylite.realmikefacts.web.Services.Graph;
+using Microsoft.Extensions.Options;
+using Microsoft.Graph;
+using Microsoft.Graph.Me.GetMemberGroups;
 
 namespace bobbylite.realmikefacts.web.Pages;
 
@@ -18,6 +26,8 @@ public class UserModel : PageModel
     private readonly IOpenAiService _openAiService;
     private readonly ILogger<UserModel> _logger;
     private readonly ITokenService _tokenService;
+    private readonly AzureOptions _azureAdOptions;
+    private readonly IGraphService _graphService;
 
     /// <summary>
     /// Message for UI.
@@ -43,13 +53,19 @@ public class UserModel : PageModel
     /// <param name="openAiService"></param>
     /// <param name="logger">Logger from DI.</param>
     /// <param name="tokenService"></param>
+    /// <param name="azureOptions"></param>
+    /// <param name="graphService"></param>
     public UserModel(IOpenAiService openAiService,
         ILogger<UserModel> logger, 
-        ITokenService tokenService)
+        ITokenService tokenService,
+        IOptions<AzureOptions> azureOptions,
+        IGraphService graphService)
     {
         _openAiService = Guard.Against.Null(openAiService);
         _logger = Guard.Against.Null(logger);
         _tokenService = Guard.Against.Null(tokenService);
+        _azureAdOptions = Guard.Against.Null(azureOptions.Value);
+        _graphService = Guard.Against.Null(graphService);
     }
 
     /// <summary>
@@ -58,6 +74,11 @@ public class UserModel : PageModel
     public async Task OnGet()
     {
         _logger.LogInformation("GET - {PageModel}", nameof(UserModel));
+        
+        var myUserId = User.Claims
+            .FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+        
+        
     }
 
     /// <summary>
@@ -75,4 +96,5 @@ public class UserModel : PageModel
         
         _logger.LogInformation("Completed OnPost successfully.");
     }
+    
 }
