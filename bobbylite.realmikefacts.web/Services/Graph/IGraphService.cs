@@ -10,4 +10,18 @@ public interface IGraphService
     /// </summary>
     /// <returns></returns>
     public Task GetGroupMembers();
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    public Task<bool> DoesUserExistInAdministratorsGroup(string userId);
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    public Task<bool> DoesUserExistInBetaTestersGroup(string userId);
 }

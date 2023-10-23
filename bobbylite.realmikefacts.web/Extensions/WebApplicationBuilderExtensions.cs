@@ -1,5 +1,8 @@
 using Ardalis.GuardClauses;
+using bobbylite.realmikefacts.web.Authorization;
+using bobbylite.realmikefacts.web.Constants;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using AppAuthorizationOptions = bobbylite.realmikefacts.web.Models.Configuration.AuthorizationOptions;
@@ -87,9 +90,18 @@ public static class WebApplicationBuilderExtensions
     {
         Guard.Against.Null(webApplicationBuilder);
 
+        webApplicationBuilder
+            .AddAzureAdAuthorization()
+            .AddGroupAuthorization();
+        
+        return webApplicationBuilder;
+    }
+
+    private static WebApplicationBuilder AddAzureAdAuthorization(this WebApplicationBuilder webApplicationBuilder)
+    {
         var authorizationOptions = new AppAuthorizationOptions();
         webApplicationBuilder.Configuration.Bind(AppAuthorizationOptions.SectionKey, authorizationOptions);
-
+        
         webApplicationBuilder.Services.AddAuthorization(options =>
         {
             foreach (var policyName in authorizationOptions.Policies.Keys)
@@ -103,6 +115,19 @@ public static class WebApplicationBuilderExtensions
                 });
             }
         });
+
+        return webApplicationBuilder;
+    }
+
+    private static WebApplicationBuilder AddGroupAuthorization(this WebApplicationBuilder webApplicationBuilder)
+    {
+        webApplicationBuilder.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy(PolicyNames.AdministratorsGroup, policy => policy.Requirements.Add(new AdministratorsGroupRequirement()));
+            options.AddPolicy(PolicyNames.BetaTestersGroup, policy => policy.Requirements.Add(new BetaTestersGroupRequirement()));
+        });
+
+        webApplicationBuilder.Services.AddGroupAuthorization();
         
         return webApplicationBuilder;
     }

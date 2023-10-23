@@ -1,26 +1,20 @@
 using Ardalis.GuardClauses;
-using bobbylite.realmikefacts.web.Constants;
 using bobbylite.realmikefacts.web.Services.OpenAI;
 using bobbylite.realmikefacts.web.Services.Token;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Identity.Client;
-using System.Net.Http.Headers;
-using Azure.Identity;
 using bobbylite.realmikefacts.web.Configuration;
+using bobbylite.realmikefacts.web.Constants;
 using bobbylite.realmikefacts.web.Services.Graph;
 using Microsoft.Extensions.Options;
-using Microsoft.Graph;
-using Microsoft.Graph.Me.GetMemberGroups;
 
 namespace bobbylite.realmikefacts.web.Pages;
 
 /// <summary>
 /// Manager page model.
 /// </summary>
-[Authorize(Policy = PolicyNames.Users)]
-[Authorize(Policy = PolicyNames.BetaTesters)]
+[Authorize(Policy = PolicyNames.BetaTestersGroup)]
 public class UserModel : PageModel
 {
     private readonly IOpenAiService _openAiService;

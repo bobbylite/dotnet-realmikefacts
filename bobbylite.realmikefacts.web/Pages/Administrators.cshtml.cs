@@ -7,7 +7,7 @@ namespace bobbylite.realmikefacts.web.Pages;
 /// <summary>
 /// Administrators page model.
 /// </summary>
-[Authorize(Policy = PolicyNames.Administrators)]
+[Authorize(Policy = PolicyNames.AdministratorsGroup)]
 public class AdministratorsModel : PageModel
 {
     private readonly ILogger<AdministratorsModel> _logger;
