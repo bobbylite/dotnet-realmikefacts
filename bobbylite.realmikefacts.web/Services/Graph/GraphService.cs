@@ -11,14 +11,16 @@ namespace bobbylite.realmikefacts.web.Services.Graph;
 /// </summary>
 public class GraphService : IGraphService
 {
+    private readonly ILogger<GraphService> _logger;
     private readonly AzureOptions _azureOptions;
     
     /// <summary>
     /// Initializes an instance of <see cref="GraphService"/>
     /// </summary>
     /// <param name="azureOptions"></param>
-    public GraphService(IOptions<AzureOptions> azureOptions)
+    public GraphService(ILogger<GraphService> logger, IOptions<AzureOptions> azureOptions)
     {
+        _logger = Guard.Against.Null(logger);
         _azureOptions = Guard.Against.Null(azureOptions.Value);
     }
     
@@ -45,7 +47,7 @@ public class GraphService : IGraphService
     }
 
     /// <summary>
-    /// 
+    /// Determines whether a user is a member of the Administrators group.
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>
@@ -68,6 +70,12 @@ public class GraphService : IGraphService
             
             var groupMembers = 
                 await graphClient.Groups[group.Id].Members.GetAsync();
+            
+            if (groupMembers?.Value is null)
+            {
+                _logger.LogError("Unsuccessful get group members operation.");
+                throw new NotSuccessfulHttpRequestException();
+            }
 
             foreach (var member in groupMembers.Value)
             {
@@ -84,7 +92,7 @@ public class GraphService : IGraphService
     }
     
     /// <summary>
-    /// 
+    /// Determines whether a user is a member of the BetaTesters group.
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>
@@ -107,6 +115,12 @@ public class GraphService : IGraphService
             
             var groupMembers = 
                 await graphClient.Groups[group.Id].Members.GetAsync();
+
+            if (groupMembers?.Value is null)
+            {
+                _logger.LogError("Unsuccessful get group members operation.");
+                throw new NotSuccessfulHttpRequestException();
+            }
 
             foreach (var member in groupMembers.Value)
             {

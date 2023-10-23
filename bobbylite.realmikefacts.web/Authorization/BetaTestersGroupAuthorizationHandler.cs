@@ -5,27 +5,23 @@ using Microsoft.AspNetCore.Authorization;
 namespace bobbylite.realmikefacts.web.Authorization;
 
 /// <summary>
-/// 
+/// Authorization handler for beta testers group policy.
 /// </summary>
 public class BetaTestersGroupAuthorizationHandler : AuthorizationHandler<BetaTestersGroupRequirement>
 {
     private readonly IGraphService _graphService;
     
     /// <summary>
-    /// 
+    /// Initializes an instance of <see cref="BetaTestersGroupAuthorizationHandler"/>
     /// </summary>
     /// <param name="graphService"></param>
     public BetaTestersGroupAuthorizationHandler(IGraphService graphService)
     {
         _graphService = Guard.Against.Null(graphService);
     }
-    
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="context"></param>
-    /// <param name="requirement"></param>
-    /// <returns></returns>
+
+
+    /// <inheritdoc />
     protected override async Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
         BetaTestersGroupRequirement requirement)
