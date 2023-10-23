@@ -13,7 +13,7 @@ public class AdministratorsModel : PageModel
     private readonly ILogger<AdministratorsModel> _logger;
     
     /// <summary>
-    /// Initializes a new instance of the <see cref="ManagerModel"/> class.
+    /// Initializes a new instance of the <see cref="AdministratorsModel"/> class.
     /// </summary>
     /// <param name="logger">Logger from DI.</param>
     public AdministratorsModel(ILogger<AdministratorsModel> logger)
