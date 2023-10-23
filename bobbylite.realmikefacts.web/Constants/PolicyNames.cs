@@ -6,11 +6,6 @@ namespace bobbylite.realmikefacts.web.Constants;
 public static class PolicyNames
 {
     /// <summary>
-    /// Constant representing the name of the Managers authorization policy.
-    /// </summary>
-    public const string Managers = "Managers";
-    
-    /// <summary>
     /// Constant representing the name of the Users authorization policy.
     /// </summary>
     public const string Users = "Users";
@@ -18,10 +13,10 @@ public static class PolicyNames
     /// <summary>
     /// Constant representing the name of the Users authorization policy.
     /// </summary>
-    public const string BetaTesters = "BetaTesters";
+    public const string BetaTestersGroup = "BetaTestersGroup";
     
     /// <summary>
     /// Constant representing the name of the Administrators authorization policy.
     /// </summary>
-    public const string Administrators = "Administrators";
+    public const string AdministratorsGroup = "AdministratorsGroup";
 }
