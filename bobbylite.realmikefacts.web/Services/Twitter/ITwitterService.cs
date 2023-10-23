@@ -9,5 +9,5 @@ public interface ITwitterService
     /// Send tweet with twitter api.
     /// </summary>
     /// <returns></returns>
-    public Task Tweet();
+    public void Tweet();
 }

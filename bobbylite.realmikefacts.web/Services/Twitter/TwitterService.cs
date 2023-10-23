@@ -29,7 +29,7 @@ public class TwitterService : ITwitterService
     }
 
     /// <inheritdoc />
-    public async Task Tweet()
+    public void Tweet()
     {
     }
 }
