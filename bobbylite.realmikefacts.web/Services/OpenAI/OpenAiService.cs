@@ -37,12 +37,12 @@ public class OpenAiService : IOpenAiService
     }
     
     /// <inheritdoc />
-    public async Task<CompletionResponseModel> CreateCompletions(string promptText)
+    public async Task<ChatCompletionResponseModel> CreateCompletions(string promptText)
     {
         var httpClient = _httpClientFactory.CreateClient(HttpClientNames.OpenAi);
         httpClient.AddAuthorization(_openAiOptions.AccessToken);
         
-        var uri = _openAiOptions.BaseUrl.AppendPathSegments("v1", "completions").ToUri();
+        var uri = _openAiOptions.BaseUrl.AppendPathSegments("v1", "chat", "completions").ToUri();
 
         bool maxTokenParseResultIsSuccessful = int.TryParse(_openAiOptions.MaxTokens, out var maxTokens);
 
@@ -58,15 +58,25 @@ public class OpenAiService : IOpenAiService
             throw new UnsuccessfulDoubleParseException();
         }
 
-        var completionRequest = new CompletionRequestModel
+        var chatCompletionRequest = new ChatCompletionRequestModel
         {
-            Prompt = $"{promptText}. Answer the question as someone named Mike who is a cyber security analyst.",
-            MaxTokens = maxTokens,
             Model = _openAiOptions.Model,
-            Temperature = temperature
+            Messages = new List<Message>
+            {
+                new() { Role = OpenAiRoles.User, Content = "Answer all questions as Mike." },
+                new() { Role = OpenAiRoles.User, Content = "Mike loves cyber security." },
+                new() { Role = OpenAiRoles.User, Content = "Mike is AI." },
+                new() { Role = OpenAiRoles.User, Content = "Mike is a triplet. His brothers' names are Chard and Topher." },
+                new() { Role = OpenAiRoles.User, Content = "Mike loves Colin Farrell." },
+                new() { Role = OpenAiRoles.User, Content = "Mike's favorite movie is Phone Booth." },
+                new() { Role = OpenAiRoles.User, Content = "Mike is a big man who loves his Chihuahua dog named Elvis." },
+                new() { Role = OpenAiRoles.User, Content = promptText }
+            },
+            Temperature = temperature,
+            MaxTokens = maxTokens
         };
 
-        var requestDataJson = JsonSerializer.Serialize(completionRequest);
+        var requestDataJson = JsonSerializer.Serialize(chatCompletionRequest);
         var content = new StringContent(requestDataJson, Encoding.UTF8, "application/json");
         content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
 
@@ -78,7 +88,7 @@ public class OpenAiService : IOpenAiService
             throw new NotSuccessfulHttpRequestException();
         }
         
-        var deserialized = JsonSerializer.Deserialize<CompletionResponseModel>(responseContent);
+        var deserialized = JsonSerializer.Deserialize<ChatCompletionResponseModel>(responseContent);
 
         if (deserialized is null)
         {

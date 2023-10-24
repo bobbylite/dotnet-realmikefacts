@@ -11,5 +11,5 @@ public interface IOpenAiService
     /// Utilizes the GPT 3.5 turbo model to respond to text prompts.
     /// </summary>
     /// <returns></returns>
-    public Task<CompletionResponseModel> CreateCompletions(string promptText);
+    public Task<ChatCompletionResponseModel> CreateCompletions(string promptText);
 }
