@@ -37,7 +37,7 @@ public class OpenAiService : IOpenAiService
     }
     
     /// <inheritdoc />
-    public async Task<CompletionModel> CreateCompletions(string promptText)
+    public async Task<CompletionResponseModel> CreateCompletions(string promptText)
     {
         var httpClient = _httpClientFactory.CreateClient(HttpClientNames.OpenAi);
         httpClient.AddAuthorization(_openAiOptions.AccessToken);
@@ -78,7 +78,7 @@ public class OpenAiService : IOpenAiService
             throw new NotSuccessfulHttpRequestException();
         }
         
-        var deserialized = JsonSerializer.Deserialize<CompletionModel>(responseContent);
+        var deserialized = JsonSerializer.Deserialize<CompletionResponseModel>(responseContent);
 
         if (deserialized is null)
         {

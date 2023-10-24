@@ -3,6 +3,7 @@ using Azure.Identity;
 using bobbylite.realmikefacts.web.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.Graph;
+using Microsoft.Graph.Models;
 
 namespace bobbylite.realmikefacts.web.Services.Graph;
 
@@ -24,28 +25,6 @@ public class GraphService : IGraphService
         _logger = Guard.Against.Null(logger);
         _azureOptions = Guard.Against.Null(azureOptions.Value);
     }
-    
-    /// <summary>
-    /// Gets all users associated with all groups.
-    /// </summary>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
-    public async Task GetGroupMembers()
-    {
-        var scopes = new[] { "https://graph.microsoft.com/.default" };
-        var clientSecretCredential = new ClientSecretCredential(_azureOptions.TenantId, _azureOptions.ClientId,
-            _azureOptions.ClientSecret);
-        var graphClient = new GraphServiceClient(clientSecretCredential, scopes);
-
-        var groups = await graphClient.Groups.GetAsync();
-        var groupList = groups?.Value;
-
-        foreach (var group in groupList!)
-        {
-            var groupMembers = 
-                await graphClient.Groups[group.Id].Members.GetAsync();
-        }
-    }
 
     /// <summary>
     /// Determines whether a user is a member of the Administrators group.
@@ -58,35 +37,12 @@ public class GraphService : IGraphService
         var clientSecretCredential = new ClientSecretCredential(_azureOptions.TenantId, _azureOptions.ClientId,
             _azureOptions.ClientSecret);
         var graphClient = new GraphServiceClient(clientSecretCredential, scopes);
-
-        var groups = await graphClient.Groups.GetAsync();
-        var groupList = groups?.Value;
-
-        foreach (var group in groupList!)
+        var groups = await GetGroups(graphClient);
+        
+        foreach (var group in groups.ToList().Where(g => g.Id == "ff9a9b37-2e83-47a9-98ad-eed35d8ca2de"))
         {
-            if (group.Id != "ff9a9b37-2e83-47a9-98ad-eed35d8ca2de")
-            {
-                continue;
-            }
-            
-            var groupMembers = 
-                await graphClient.Groups[group.Id].Members.GetAsync();
-            
-            if (groupMembers?.Value is null)
-            {
-                _logger.LogError("Unsuccessful get group members operation.");
-                throw new NotSuccessfulHttpRequestException();
-            }
-
-            foreach (var member in groupMembers.Value)
-            {
-                if (member.Id == userId)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            var groupId = group.Id ?? throw new NullOrEmptyStringException();
+            return await DetermineMembershipStatus(graphClient, groupId, userId);
         }
 
         return false;
@@ -103,37 +59,46 @@ public class GraphService : IGraphService
         var clientSecretCredential = new ClientSecretCredential(_azureOptions.TenantId, _azureOptions.ClientId,
             _azureOptions.ClientSecret);
         var graphClient = new GraphServiceClient(clientSecretCredential, scopes);
+        var groups = await GetGroups(graphClient);
 
-        var groups = await graphClient.Groups.GetAsync();
-        var groupList = groups?.Value;
-
-        foreach (var group in groupList!)
+        foreach (var group in groups.Where(g => g.Id == "14c0cb9c-4c9d-4f25-9184-6fa53fdb296d"))
         {
-            if (group.Id != "14c0cb9c-4c9d-4f25-9184-6fa53fdb296d")
-            {
-                continue;
-            }
-            
-            var groupMembers = 
-                await graphClient.Groups[group.Id].Members.GetAsync();
-
-            if (groupMembers?.Value is null)
-            {
-                _logger.LogError("Unsuccessful get group members operation.");
-                throw new NotSuccessfulHttpRequestException();
-            }
-
-            foreach (var member in groupMembers.Value)
-            {
-                if (member.Id == userId)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            var groupId = group.Id ?? throw new NullOrEmptyStringException();
+            return await DetermineMembershipStatus(graphClient, groupId, userId);
         }
 
         return false;
+    }
+    
+    private static async Task<IEnumerable<Group>> GetGroups(GraphServiceClient graphClient)
+    {
+        var groups = await graphClient.Groups.GetAsync();
+
+        var groupList = groups?.Value?.ToList();
+
+        if (groupList is null)
+        {
+            throw new NullObjectException();
+        }
+
+        return groupList;
+    }
+
+    private async Task<bool> DetermineMembershipStatus(GraphServiceClient graphClient, string groupId, string userId)
+    {
+        var groupMembersResponse = 
+            await graphClient.Groups[groupId].Members.GetAsync();
+            
+        var groupMembers = groupMembersResponse?.Value;
+            
+        if (groupMembers is null)
+        {
+            _logger.LogError("Unsuccessful get group members operation.");
+            throw new NullObjectException();
+        }
+
+        var userHasMembership = groupMembers.Find(m => m.Id == userId);
+
+        return userHasMembership is not null;
     }
 }
