@@ -26,5 +26,6 @@ public class AdministratorsModel : PageModel
     /// </summary>
     public void OnGet()
     {
+        
     }
 }

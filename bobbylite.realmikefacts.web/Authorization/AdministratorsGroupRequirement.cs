@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 
-namespace bobbylite.realmikefacts.web.Authorization.Administrators;
+namespace bobbylite.realmikefacts.web.Authorization;
 
 /// <summary>
 /// Requirement for authorizing beta testers group policy.

@@ -1,5 +1,4 @@
 using Ardalis.GuardClauses;
-using bobbylite.realmikefacts.web.Authorization.Administrators;
 using bobbylite.realmikefacts.web.Services.Graph;
 using Microsoft.AspNetCore.Authorization;
 
@@ -31,7 +30,7 @@ public class AdministratorsGroupAuthorizationHandler : AuthorizationHandler<Admi
         {
             var userId = context.User.FindFirst(c => c.Type == nameIdentifierKey)!.Value;
 
-            var result = await _graphService.DoesUserExistInAdministratorsGroup(userId);
+            var result = await _graphService.DoesUserBelongToGroup(userId, "ff9a9b37-2e83-47a9-98ad-eed35d8ca2de");
 
             if (result)
             {

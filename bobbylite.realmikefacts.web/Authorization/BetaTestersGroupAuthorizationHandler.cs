@@ -30,7 +30,7 @@ public class BetaTestersGroupAuthorizationHandler : AuthorizationHandler<BetaTes
         {
             var userId = context.User.FindFirst(c => c.Type == nameIdentifierKey)!.Value;
 
-            var result = await _graphService.DoesUserExistInBetaTestersGroup(userId);
+            var result = await _graphService.DoesUserBelongToGroup(userId, "14c0cb9c-4c9d-4f25-9184-6fa53fdb296d");
 
             if (result)
             {
