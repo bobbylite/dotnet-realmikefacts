@@ -39,6 +39,8 @@ public class OpenAiService : IOpenAiService
     /// <inheritdoc />
     public async Task<ChatCompletionResponseModel> CreateCompletions(string promptText)
     {
+        Guard.Against.NullOrEmpty(promptText);
+            
         var httpClient = _httpClientFactory.CreateClient(HttpClientNames.OpenAi);
         httpClient.AddAuthorization(_openAiOptions.AccessToken);
         

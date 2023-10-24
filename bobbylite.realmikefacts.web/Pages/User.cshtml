@@ -80,7 +80,9 @@
             <form method="post">
                 <input asp-for="Message" style="max-width: 600px" class="form-control form-control-lg" type="text" placeholder="Tell me a Mike fact">
                 <br/>
-                <button class="btn btn-success" id="updateButton">Submit</button>
+                <button class="btn btn-primary" type="submit" id="myButton" data-loading-text='<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...' data-loading="false">
+                    Submit
+                </button>
             </form>
         </div>
     }
@@ -104,5 +106,21 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     typeText();
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const button = document.getElementById("myButton");
+    const form = button.closest("form");
+    form.addEventListener("submit", function () {
+        if (button.getAttribute("data-loading") === "true") {
+            event.preventDefault(); // Prevent form submission if already loading
+        } else {
+            button.disabled = true;
+            button.setAttribute("data-loading", "true");
+            button.innerHTML = button.getAttribute("data-loading-text");
+            const spinner = button.querySelector('.spinner-border');
+            spinner.classList.remove('d-none');
+        }
+    });
 });
 </script>
