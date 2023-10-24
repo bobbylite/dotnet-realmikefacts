@@ -6,16 +6,10 @@ namespace bobbylite.realmikefacts.web.Services.Graph;
 public interface IGraphService
 { 
     /// <summary>
-    /// 
+    /// Determins is a user belongs to groups.
     /// </summary>
     /// <param name="userId"></param>
+    /// <param name="groupId"></param>
     /// <returns></returns>
-    public Task<bool> DoesUserExistInAdministratorsGroup(string userId);
-    
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="userId"></param>
-    /// <returns></returns>
-    public Task<bool> DoesUserExistInBetaTestersGroup(string userId);
+    public Task<bool> DoesUserBelongToGroup(string userId, string groupId);
 }
