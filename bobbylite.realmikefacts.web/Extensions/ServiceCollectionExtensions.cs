@@ -1,11 +1,13 @@
 using Ardalis.GuardClauses;
 using bobbylite.realmikefacts.web.Authorization;
+using bobbylite.realmikefacts.web.Authorization.Administrators;
 using bobbylite.realmikefacts.web.Configuration;
 using bobbylite.realmikefacts.web.Constants;
 using bobbylite.realmikefacts.web.Services.Graph;
 using bobbylite.realmikefacts.web.Services.OpenAI;
 using bobbylite.realmikefacts.web.Services.Token;
 using bobbylite.realmikefacts.web.Services.Twitter;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 
 namespace bobbylite.realmikefacts.web.Extensions;
@@ -26,7 +28,7 @@ public static class ServiceCollectionExtensions
         
         serviceCollection.AddSingleton<IAuthorizationHandler, AdministratorsGroupAuthorizationHandler>();
         serviceCollection.AddSingleton<IAuthorizationHandler, BetaTestersGroupAuthorizationHandler>();
-
+        
         return serviceCollection;
     }
     

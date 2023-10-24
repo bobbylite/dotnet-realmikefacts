@@ -5,17 +5,17 @@ namespace bobbylite.realmikefacts.web.Models.OpenAI;
 /// <summary>
 /// Model that represents completion request via OpenAI
 /// </summary>
-public class CompletionModel
+public class CompletionResponseModel
 {
     /// <summary>
-    /// Choice.
+    /// Choices for model.
     /// </summary>
     [JsonPropertyName("choices")]
     public IEnumerable<TextObject>? Choices { get; set; }
 }
 
 /// <summary>
-/// 
+/// Text for model.
 /// </summary>
 public class TextObject
 {

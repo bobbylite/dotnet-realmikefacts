@@ -19,8 +19,7 @@ public class BetaTestersGroupAuthorizationHandler : AuthorizationHandler<BetaTes
     {
         _graphService = Guard.Against.Null(graphService);
     }
-
-
+    
     /// <inheritdoc />
     protected override async Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
