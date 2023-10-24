@@ -78,7 +78,7 @@ public class UserModel : PageModel
         _logger.LogInformation("POST - {PageModel}", nameof(UserModel));
         
         var completionResult = await _openAiService.CreateCompletions(Message);
-        Message = completionResult?.Choices?.SingleOrDefault()?.Text 
+        Message = completionResult.Choices?.SingleOrDefault()?.Message?.Content
                   ?? throw new NullOrEmptyStringException();
         CharacterCount = $"{Message.Length}ch";
         WidthCount = $"{Message.Length}";
