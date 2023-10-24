@@ -28,6 +28,9 @@ public class GraphService : IGraphService
     /// <inheritdoc />
     public async Task<bool> DoesUserBelongToGroup(string userId, string groupId)
     {
+        Guard.Against.NullOrEmpty(userId);
+        Guard.Against.Null(groupId);
+        
         var scopes = new[] { "https://graph.microsoft.com/.default" };
         var clientSecretCredential = new ClientSecretCredential(_azureOptions.TenantId, _azureOptions.ClientId,
             _azureOptions.ClientSecret);

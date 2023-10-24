@@ -14,7 +14,7 @@ namespace bobbylite.realmikefacts.web.Pages;
 /// <summary>
 /// Manager page model.
 /// </summary>
-[Authorize(Policy = PolicyNames.BetaTestersGroup)]
+[Authorize(Policy = PolicyNames.Users)]
 public class UserModel : PageModel
 {
     private readonly IOpenAiService _openAiService;
@@ -76,6 +76,11 @@ public class UserModel : PageModel
     public async Task OnPost()
     {
         _logger.LogInformation("POST - {PageModel}", nameof(UserModel));
+        
+        if (string.IsNullOrEmpty(Message))
+        {
+            return;
+        }
         
         var completionResult = await _openAiService.CreateCompletions(Message);
         Message = completionResult.Choices?.SingleOrDefault()?.Message?.Content
