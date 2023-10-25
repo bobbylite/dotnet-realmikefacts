@@ -1,3 +1,5 @@
+using Microsoft.Graph.Models;
+
 namespace bobbylite.realmikefacts.web.Services.Graph;
 
 /// <summary>
@@ -12,4 +14,11 @@ public interface IGraphService
     /// <param name="groupId"></param>
     /// <returns></returns>
     public Task<bool> DoesUserBelongToGroup(string userId, string groupId);
+
+    /// <summary>
+    /// Gets all memberships for a specified user.
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    public Task<IEnumerable<DirectoryObject>> GetAllGroupMemberships(string userId);
 }

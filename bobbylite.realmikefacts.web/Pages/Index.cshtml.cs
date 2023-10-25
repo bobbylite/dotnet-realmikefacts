@@ -23,5 +23,11 @@ public class IndexModel : PageModel
     /// </summary>
     public void OnGet()
     {
+        var cookie = HttpContext.Request.Cookies[".AspNetCore.Custom.Auth.Cookies"];
+        bool isAuthenticated = User.Identity?.IsAuthenticated ?? false;
+        if ((!isAuthenticated) && (cookie is not null))
+        {
+            HttpContext.Response.Cookies.Delete(".AspNetCore.Custom.Auth.Cookies");
+        }
     }
 }
