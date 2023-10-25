@@ -8,6 +8,7 @@ namespace bobbylite.realmikefacts.web.Pages;
 /// Administrators page model.
 /// </summary>
 [Authorize(Policy = PolicyNames.AdministratorsGroup)]
+[Authorize(Policy = PolicyNames.Users)]
 public class AdministratorsModel : PageModel
 {
     private readonly ILogger<AdministratorsModel> _logger;
