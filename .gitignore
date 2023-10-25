@@ -4,6 +4,7 @@ bin/
 Properties/
 .vscode/
 credentials.txt
+policies
 
 
 # IDE artifacts
