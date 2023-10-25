@@ -14,7 +14,7 @@ namespace bobbylite.realmikefacts.web.Pages;
 /// <summary>
 /// Manager page model.
 /// </summary>
-[Authorize(Policy = PolicyNames.Users)]
+[Authorize(Policy = PolicyNames.BetaTestersGroup)]
 public class UserModel : PageModel
 {
     private readonly IOpenAiService _openAiService;

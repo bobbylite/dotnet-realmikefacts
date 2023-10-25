@@ -6,7 +6,6 @@ using bobbylite.realmikefacts.web.Services.Graph;
 using bobbylite.realmikefacts.web.Services.OpenAI;
 using bobbylite.realmikefacts.web.Services.Token;
 using bobbylite.realmikefacts.web.Services.Twitter;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 
 namespace bobbylite.realmikefacts.web.Extensions;
@@ -25,8 +24,10 @@ public static class ServiceCollectionExtensions
     {
         Guard.Against.Null(serviceCollection);
         
-        serviceCollection.AddSingleton<IAuthorizationHandler, AdministratorsGroupAuthorizationHandler>();
-        serviceCollection.AddSingleton<IAuthorizationHandler, BetaTestersGroupAuthorizationHandler>();
+        serviceCollection
+            .AddSingleton<IAuthorizationHandler, AdministratorsGroupAuthorizationHandler>()
+            .AddSingleton<IAuthorizationHandler, BetaTestersGroupAuthorizationHandler>()
+            .AddHttpContextAccessor();
         
         return serviceCollection;
     }
@@ -42,9 +43,9 @@ public static class ServiceCollectionExtensions
         Guard.Against.Null(serviceCollection);
         Guard.Against.Null(configuration);
 
-        serviceCollection.Configure<OpenAiOptions>(configuration.GetSection(OpenAiOptions.SectionKey));
-        serviceCollection.Configure<TwitterOptions>(configuration.GetSection(TwitterOptions.SectionKey));
-        serviceCollection.Configure<AzureOptions>(configuration.GetSection(AzureOptions.SectionKey));
+        serviceCollection.Configure<OpenAiOptions>(configuration.GetSection(OpenAiOptions.SectionKey))
+            .Configure<TwitterOptions>(configuration.GetSection(TwitterOptions.SectionKey))
+            .Configure<AzureOptions>(configuration.GetSection(AzureOptions.SectionKey));
         
         serviceCollection.AddLogging(loggingBuilder =>
         {
@@ -66,8 +67,9 @@ public static class ServiceCollectionExtensions
         Guard.Against.Null(serviceCollection);
         Guard.Against.Null(configuration);
 
-        serviceCollection.AddOpenAiHttpClients();
-        serviceCollection.AddTwitterHttpClients();
+        serviceCollection
+            .AddOpenAiHttpClients()
+            .AddTwitterHttpClients();
 
         return serviceCollection;
     }
