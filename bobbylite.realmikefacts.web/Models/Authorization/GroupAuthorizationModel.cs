@@ -11,7 +11,14 @@ public class GroupAuthorizationModel
     /// <summary>
     /// Groups.
     /// </summary>
+    [JsonPropertyName("groups")]
     public List<GroupInformation>? Groups { get; set; }
+    
+    /// <summary>
+    /// Group name.
+    /// </summary>
+    [JsonPropertyName("user_id")]
+    public string? UserId { get; set; }
 }
 
 /// <summary>
@@ -19,12 +26,6 @@ public class GroupAuthorizationModel
 /// </summary>
 public class GroupInformation
 {
-    /// <summary>
-    /// Group name.
-    /// </summary>
-    [JsonPropertyName("group_name")]
-    public string? GroupName { get; set; }
-    
     /// <summary>
     /// Group Id.
     /// </summary>
