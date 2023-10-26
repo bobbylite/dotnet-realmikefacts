@@ -45,9 +45,15 @@ public class IndexModel : PageModel
         {
             throw new NullObjectException();
         }
+
+        var userId = HttpContext.User.FindFirst(c => c.Type == nameIdentifierKey);
+
+        if (userId is null)
+        {
+            return;
+        }
         
-        var userId = HttpContext.User.FindFirst(c => c.Type == nameIdentifierKey)!.Value;
-        isMyCookie = userId == groupAuthorizationModel.UserId;
+        isMyCookie = userId.Value == groupAuthorizationModel.UserId;
         bool isAuthenticated = User.Identity?.IsAuthenticated ?? false;
         
         if (!isAuthenticated || !isMyCookie)
