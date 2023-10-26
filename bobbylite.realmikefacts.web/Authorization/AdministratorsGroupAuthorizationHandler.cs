@@ -26,8 +26,6 @@ public class AdministratorsGroupAuthorizationHandler : AuthorizationHandler<Admi
         _httpContextAccessor = Guard.Against.Null(httpContextAccessor);
     }
     
-    //ff9a9b37-2e83-47a9-98ad-eed35d8ca2de
-
     /// <inheritdoc />
     protected override async Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
