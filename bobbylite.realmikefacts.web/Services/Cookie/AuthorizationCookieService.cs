@@ -114,6 +114,15 @@ public class AuthorizationCookieService : IAuthorizationCookieService
         return cookie;
     }
 
+    /// <inheritdoc />
+    public bool DoesCookieExist()
+    {
+        var cookie = _httpContextAccessor.HttpContext?.Request.Cookies[CookieKey];
+        var doesCookieExist = !string.IsNullOrEmpty(cookie);
+
+        return doesCookieExist;
+    }
+
 
     /// <inheritdoc />
     public void CreateCookie(string userId, string groupId)

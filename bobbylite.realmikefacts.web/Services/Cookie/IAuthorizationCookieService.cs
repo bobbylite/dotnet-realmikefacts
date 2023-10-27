@@ -41,6 +41,12 @@ public interface IAuthorizationCookieService
     public string GetCookie();
 
     /// <summary>
+    /// Determines whether the authorization cookie exists. 
+    /// </summary>
+    /// <returns></returns>
+    public bool DoesCookieExist();
+
+    /// <summary>
     /// Creates new cookie with group id.
     /// </summary>
     /// <param name="userId"></param>

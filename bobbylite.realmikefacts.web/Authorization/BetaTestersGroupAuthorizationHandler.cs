@@ -43,11 +43,11 @@ public class BetaTestersGroupAuthorizationHandler : AuthorizationHandler<BetaTes
         }
 
         var userId = context.User.FindFirst(c => c.Type == NameIdentifierKey)!.Value;
-        string cookie = _authorizationCookieService.GetCookie();
         bool isMember = false;
 
-        if (!string.IsNullOrEmpty(cookie))
+        if (_authorizationCookieService.DoesCookieExist())
         {
+            var cookie = _authorizationCookieService.GetCookie();
             isMember = await _authorizationCookieService.DetermineGroupMembership(cookie, GroupId, userId);
             
             if (!isMember)

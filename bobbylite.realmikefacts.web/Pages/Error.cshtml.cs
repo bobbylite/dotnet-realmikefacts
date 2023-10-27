@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -31,7 +32,7 @@ public class ErrorModel : PageModel
     /// <param name="logger">Logger from DI.</param>
     public ErrorModel(ILogger<ErrorModel> logger)
     {
-        _logger = logger;
+        _logger = Guard.Against.Null(logger);
     }
 
     /// <summary>

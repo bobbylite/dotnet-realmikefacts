@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Ardalis.GuardClauses;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace bobbylite.realmikefacts.web.Pages;
 
@@ -15,7 +16,7 @@ public class PrivacyModel : PageModel
     /// <param name="logger">Logger from DI.</param>
     public PrivacyModel(ILogger<PrivacyModel> logger)
     {
-        _logger = logger;
+        _logger = Guard.Against.Null(logger);
     }
 
     /// <summary>

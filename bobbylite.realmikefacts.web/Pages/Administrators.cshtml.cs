@@ -1,3 +1,4 @@
+using Ardalis.GuardClauses;
 using bobbylite.realmikefacts.web.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -19,7 +20,7 @@ public class AdministratorsModel : PageModel
     /// <param name="logger">Logger from DI.</param>
     public AdministratorsModel(ILogger<AdministratorsModel> logger)
     {
-        _logger = logger;
+        _logger = Guard.Against.Null(logger);
     }
     
     /// <summary>
