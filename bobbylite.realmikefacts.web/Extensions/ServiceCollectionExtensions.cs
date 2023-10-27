@@ -2,6 +2,7 @@ using Ardalis.GuardClauses;
 using bobbylite.realmikefacts.web.Authorization;
 using bobbylite.realmikefacts.web.Configuration;
 using bobbylite.realmikefacts.web.Constants;
+using bobbylite.realmikefacts.web.Services.Cookie;
 using bobbylite.realmikefacts.web.Services.Graph;
 using bobbylite.realmikefacts.web.Services.OpenAI;
 using bobbylite.realmikefacts.web.Services.Token;
@@ -89,6 +90,7 @@ public static class ServiceCollectionExtensions
         serviceCollection.AddSingleton<IOpenAiService, OpenAiService>();
         serviceCollection.AddSingleton<ITokenService, TokenService>();
         serviceCollection.AddSingleton<ITwitterService, TwitterService>();
+        serviceCollection.AddTransient<IAuthorizationCookieService, AuthorizationCookieService>();
 
         return serviceCollection;
     }
