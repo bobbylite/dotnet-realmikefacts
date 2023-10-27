@@ -1,6 +1,8 @@
 ﻿using System.Text;
 using System.Text.Json;
+using Ardalis.GuardClauses;
 using bobbylite.realmikefacts.web.Models.Authorization;
+using bobbylite.realmikefacts.web.Services.Cookie;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace bobbylite.realmikefacts.web.Pages;
@@ -10,15 +12,20 @@ namespace bobbylite.realmikefacts.web.Pages;
 /// </summary>
 public class IndexModel : PageModel
 {
+    const string NameIdentifierKey = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
+    
     private readonly ILogger<IndexModel> _logger;
+    private readonly IAuthorizationCookieService _authorizationCookieService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="IndexModel"/> class.
     /// </summary>
     /// <param name="logger">Logger from DI.</param>
-    public IndexModel(ILogger<IndexModel> logger)
+    /// <param name="authorizationCookieService"></param>
+    public IndexModel(ILogger<IndexModel> logger, IAuthorizationCookieService authorizationCookieService)
     {
-        _logger = logger;
+        _logger = Guard.Against.Null(logger);
+        _authorizationCookieService = Guard.Against.Null(authorizationCookieService);
     }
 
     /// <summary>
@@ -26,17 +33,14 @@ public class IndexModel : PageModel
     /// </summary>
     public void OnGet()
     {
-        const string cookieKey = ".AspNetCore.Custom.Auth.Cookies";
-        const string nameIdentifierKey = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
-        
-        var cookie = HttpContext.Request.Cookies[cookieKey];
-        if (cookie is null)
+        if (_authorizationCookieService.DoesCookieExist() is false)
         {
             return;
         }
 
         bool isMyCookie = false;
-        
+
+        var cookie = _authorizationCookieService.GetCookie();
         byte[] bytes = Convert.FromBase64String(cookie);
         var serializedJson = Encoding.ASCII.GetString(bytes);
         var groupAuthorizationModel = JsonSerializer.Deserialize<GroupAuthorizationModel>(serializedJson);
@@ -46,7 +50,7 @@ public class IndexModel : PageModel
             throw new NullObjectException();
         }
 
-        var userId = HttpContext.User.FindFirst(c => c.Type == nameIdentifierKey);
+        var userId = HttpContext.User.FindFirst(c => c.Type == NameIdentifierKey);
 
         if (userId is null)
         {
@@ -58,8 +62,7 @@ public class IndexModel : PageModel
         
         if (!isAuthenticated || !isMyCookie)
         {
-            
-            HttpContext.Response.Cookies.Delete(".AspNetCore.Custom.Auth.Cookies");
+            _authorizationCookieService.DeleteCookie();
         }
     }
 }
