@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace bobbylite.realmikefacts.web.Extensions;
 
 /// <summary>
-/// 
+/// Extensions for <see cref="ServiceCollection"/>
 /// </summary>
 public static class ServiceCollectionExtensions
 {
