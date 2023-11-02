@@ -11,6 +11,43 @@ namespace bobbylite.realmikefacts.tests.Services;
 
 public class AuthorizationCookieServiceTests
 {
+    private readonly Mock<IHttpContextAccessor> _mockHttpContextAccessor;
+    private readonly Mock<IGraphService> _mockGraphService;
+    private readonly IAuthorizationCookieService _authorizationCookieService;
+    
+    public AuthorizationCookieServiceTests()
+    {
+        _mockGraphService = new Mock<IGraphService>();
+        _mockHttpContextAccessor = CreateHttpContextAccessorWithRequestCookies();
+        var cookieService = new AuthorizationCookieService(_mockGraphService.Object, _mockHttpContextAccessor.Object);
+
+        _authorizationCookieService = cookieService;
+    }
+    
+    [Fact]
+    public void DeleteCookie_Success()
+    {
+        // Act
+        _authorizationCookieService.DeleteCookie();
+        var doesCookieExist = _authorizationCookieService.DoesCookieExist();
+
+        // Assert
+        Assert.False(doesCookieExist);
+    }
+    
+    [Fact]
+    public void CreateCookie_Success()
+    {
+        // Arrange
+        var userId = "deadbeef";
+
+        // Act
+        _authorizationCookieService.CreateCookie(userId);
+
+        // Assert
+        _mockHttpContextAccessor.Verify(s => s.HttpContext!.Response.Cookies.Delete(It.IsAny<string>()), Times.Never);
+    }
+    
     [Fact]
     public async Task DetermineGroupMembership_CookieDoesNotExist_UserIsNotMember()
     {
@@ -126,9 +163,21 @@ public class AuthorizationCookieServiceTests
     // Helper method to create an HttpContextAccessor with RequestCookies
     private Mock<IHttpContextAccessor> CreateHttpContextAccessorWithRequestCookies()
     {
-        var httpContext = new DefaultHttpContext();
+        var requestCookieCollection = new Mock<IRequestCookieCollection>();
+        var httpContext = new DefaultHttpContext()
+        {
+            Request = { Cookies = requestCookieCollection.Object }
+        };
+        
+        string cookieString = $"{{\"groups\":[{{\"group_id\":\"deadbeef\"}}],\"user_id\":\"foobar\"}}";
+        byte[] bytes = Encoding.ASCII.GetBytes(cookieString);
+        var cookie = Convert.ToBase64String(bytes);
+        httpContext.Response.Cookies.Append(".AspNetCore.Custom.Auth.Cookies", cookie);
+        
         var httpContextAccessor = new Mock<IHttpContextAccessor>();
-        httpContextAccessor.Setup(a => a.HttpContext).Returns(httpContext);
+        httpContextAccessor
+            .Setup(a => a.HttpContext).Returns(httpContext);
+            
         return httpContextAccessor;
     }
 }
