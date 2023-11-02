@@ -1,4 +1,3 @@
-using System.Net;
 using System.Text;
 using System.Text.Json;
 using bobbylite.realmikefacts.web.Models.Authorization;
@@ -18,34 +17,81 @@ public class AuthorizationCookieServiceTests
     public AuthorizationCookieServiceTests()
     {
         _mockGraphService = new Mock<IGraphService>();
-        _mockHttpContextAccessor = CreateHttpContextAccessorWithRequestCookies();
+        _mockHttpContextAccessor = CreateHttpContextAccessorWithoutRequestCookies();
         var cookieService = new AuthorizationCookieService(_mockGraphService.Object, _mockHttpContextAccessor.Object);
 
         _authorizationCookieService = cookieService;
     }
     
     [Fact]
-    public void DeleteCookie_Success()
+    public void DoesCookieExist_Success()
     {
+        // Arrange
+        var httpContextAccessor = CreateHttpContextAccessorWithRequestCookies();
+        var authorizationCookieService= new AuthorizationCookieService(_mockGraphService.Object, httpContextAccessor.Object);
+        
         // Act
-        _authorizationCookieService.DeleteCookie();
-        var doesCookieExist = _authorizationCookieService.DoesCookieExist();
-
+        var doesCookieExist = authorizationCookieService.DoesCookieExist();
+        
         // Assert
-        Assert.False(doesCookieExist);
+        Assert.True(doesCookieExist);
+        httpContextAccessor.Verify(s => s.HttpContext, Times.Once);
     }
     
     [Fact]
-    public void CreateCookie_Success()
+    public void DeleteCookie_Success()
     {
         // Arrange
-        var userId = "deadbeef";
+        var httpContextAccessor = CreateHttpContextAccessorWithRequestCookies();
+        var authorizationCookieService= new AuthorizationCookieService(_mockGraphService.Object, httpContextAccessor.Object);
+        
+        // Act
+        authorizationCookieService.DeleteCookie();
+        
+        // Assert
+        httpContextAccessor.Verify(s => s.HttpContext, Times.Once);
+    }
+    
+    [Fact]
+    public void CreateCookie_WithUserId_Success()
+    {
+        // Arrange
+        var userId = "foobar";
 
         // Act
         _authorizationCookieService.CreateCookie(userId);
 
         // Assert
         _mockHttpContextAccessor.Verify(s => s.HttpContext!.Response.Cookies.Delete(It.IsAny<string>()), Times.Never);
+    }
+    
+    [Fact]
+    public void CreateCookie_WithUserIdAndGroupId_Success()
+    {
+        // Arrange
+        var userId = "foobar";
+        var groupId = "deadbeef";
+
+        // Act
+        _authorizationCookieService.CreateCookie(userId, groupId);
+
+        // Assert
+        _mockHttpContextAccessor.Verify(s => s.HttpContext!.Response.Cookies.Delete(It.IsAny<string>()), Times.Never);
+    }
+
+    [Fact]
+    public void GetCookie_Success()
+    {
+        // Arrange
+        var httpContextAccessor = CreateHttpContextAccessorWithRequestCookies();
+        var authorizationCookieService= new AuthorizationCookieService(_mockGraphService.Object, httpContextAccessor.Object);
+        
+        // Act
+        var cookie = authorizationCookieService.GetCookie();
+
+        // Assert
+        Assert.NotNull(cookie);
+        Assert.NotEmpty(cookie);
     }
     
     [Fact]
@@ -157,26 +203,32 @@ public class AuthorizationCookieServiceTests
         // Act & Assert
         Assert.Throws<ArgumentNullException>(() => new AuthorizationCookieService(null!, null!));
     }
-
-    // Add more tests for other methods, including CreateCookie, DeleteCookie, GetCookie, DoesCookieExist, etc.
-
-    // Helper method to create an HttpContextAccessor with RequestCookies
+    
+    private Mock<IHttpContextAccessor> CreateHttpContextAccessorWithoutRequestCookies()
+    {
+        return new Mock<IHttpContextAccessor>();
+    }
+    
     private Mock<IHttpContextAccessor> CreateHttpContextAccessorWithRequestCookies()
     {
+        string cookieString = $"{{\"groups\":[{{\"group_id\":\"deadbeef\"}}],\"user_id\":\"foobar\"}}";
+        byte[] bytes = Encoding.ASCII.GetBytes(cookieString);
+        var cookie = Convert.ToBase64String(bytes);
+        
         var requestCookieCollection = new Mock<IRequestCookieCollection>();
+        requestCookieCollection
+            .Setup(m => m[It.IsAny<string>()])
+            .Returns(cookie);
+        
         var httpContext = new DefaultHttpContext()
         {
             Request = { Cookies = requestCookieCollection.Object }
         };
         
-        string cookieString = $"{{\"groups\":[{{\"group_id\":\"deadbeef\"}}],\"user_id\":\"foobar\"}}";
-        byte[] bytes = Encoding.ASCII.GetBytes(cookieString);
-        var cookie = Convert.ToBase64String(bytes);
-        httpContext.Response.Cookies.Append(".AspNetCore.Custom.Auth.Cookies", cookie);
-        
         var httpContextAccessor = new Mock<IHttpContextAccessor>();
         httpContextAccessor
-            .Setup(a => a.HttpContext).Returns(httpContext);
+            .Setup(a => a.HttpContext)
+            .Returns(httpContext);
             
         return httpContextAccessor;
     }
