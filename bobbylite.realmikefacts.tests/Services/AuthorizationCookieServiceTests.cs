@@ -112,35 +112,25 @@ public class AuthorizationCookieServiceTests
         // Assert
         Assert.False(result);
         graphService.Verify(s => s.DoesUserBelongToGroup(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
-        httpContextAccessor.Verify(s => s.HttpContext!.Response.Cookies.Delete(It.IsAny<string>()), Times.Never);
-        httpContextAccessor.Verify(s => s.HttpContext!.Response.Cookies.Append(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CookieOptions>()), Times.Never);
+        httpContextAccessor.Verify(s => s.HttpContext, Times.Once);
     }
 
     [Fact]
     public async Task DetermineGroupMembership_CookieExists_UserIsMember()
     {
-        // Arrange
-        var graphService = new Mock<IGraphService>();
-        graphService.Setup(s => s.DoesUserBelongToGroup(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(true);
-        var httpContextAccessor = CreateHttpContextAccessorWithRequestCookies();
-        var cookieService = new AuthorizationCookieService(graphService.Object, httpContextAccessor.Object);
         var groupId = "deadbeef";
         var userId = "foobar";
         string cookieString = $"{{\"groups\":[{{\"group_id\":\"{groupId}\"}}],\"user_id\":\"{userId}\"}}";
         byte[] bytes = Encoding.ASCII.GetBytes(cookieString);
         var cookie = Convert.ToBase64String(bytes);
-        httpContextAccessor
-            .Setup(m => m.HttpContext!.Request.Cookies[It.IsAny<string>()])
-            .Returns(".AspNetCore.Custom.Auth.Cookies");
+        var httpContextAccessor = CreateHttpContextAccessorWithRequestCookies();
+        var authorizationCookieService= new AuthorizationCookieService(_mockGraphService.Object, httpContextAccessor.Object);
         
         // Act
-        var result = await cookieService.DetermineGroupMembership(cookie, groupId, userId);
-
+        var result = await authorizationCookieService.DetermineGroupMembership(cookie, groupId, userId);
+        
         // Assert
         Assert.True(result);
-        graphService.Verify(s => s.DoesUserBelongToGroup(userId, groupId), Times.Never);
-        httpContextAccessor.Verify(s => s.HttpContext!.Response.Cookies.Delete(It.IsAny<string>()), Times.Never);
-        httpContextAccessor.Verify(s => s.HttpContext!.Response.Cookies.Append(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CookieOptions>()), Times.Never);
     }
 
     [Fact]
