@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace bobbylite.realmikefacts.web.Authorization;
 
 /// <summary>
-/// Authorization handler for beta testers group policy.
+/// Authorization handler for administrators group policy.
 /// </summary>
 public class AdministratorsGroupAuthorizationHandler : AuthorizationHandler<AdministratorsGroupRequirement>
 {
