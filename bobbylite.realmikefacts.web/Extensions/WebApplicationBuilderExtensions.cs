@@ -15,7 +15,8 @@ namespace bobbylite.realmikefacts.web.Extensions;
 public static class WebApplicationBuilderExtensions
 {
     /// <summary>
-    /// Adds CORS to web application. Documentation: https://learn.microsoft.com/en-us/aspnet/core/security/cors?view=aspnetcore-7.0
+    /// Adds CORS to web application.
+    /// Documentation: https://learn.microsoft.com/en-us/aspnet/core/security/cors?view=aspnetcore-7.0
     /// </summary>
     /// <param name="webApplicationBuilder"></param>
     /// <returns></returns>
