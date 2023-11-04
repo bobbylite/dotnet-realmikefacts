@@ -31,7 +31,7 @@ public static class WebApplicationBuilderExtensions
                 policy  =>
                 {
                     policy.WithOrigins("https://realmikefacts.azurewebsites.net",
-                        "http://");
+                        "https://realmikefacts.b2clogin.com");
                 });
         });
         
