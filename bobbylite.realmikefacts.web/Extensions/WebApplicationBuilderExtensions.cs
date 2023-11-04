@@ -15,6 +15,30 @@ namespace bobbylite.realmikefacts.web.Extensions;
 public static class WebApplicationBuilderExtensions
 {
     /// <summary>
+    /// Adds CORS to web application. Documentation: https://learn.microsoft.com/en-us/aspnet/core/security/cors?view=aspnetcore-7.0
+    /// </summary>
+    /// <param name="webApplicationBuilder"></param>
+    /// <returns></returns>
+    public static WebApplicationBuilder AddCors(this WebApplicationBuilder webApplicationBuilder)
+    {
+        Guard.Against.Null(webApplicationBuilder);
+        
+        const string myAllowSpecificOrigins = "_myAllowSpecificOrigins";
+        
+        webApplicationBuilder.Services.AddCors(options =>
+        {
+            options.AddPolicy(name: myAllowSpecificOrigins,
+                policy  =>
+                {
+                    policy.WithOrigins("https://realmikefacts.azurewebsites.net",
+                        "http://");
+                });
+        });
+        
+        return webApplicationBuilder;
+    }
+    
+    /// <summary>
     /// Binds appsettings and environment variable configurations.
     /// </summary>
     /// <param name="webApplication"></param>
