@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Real Mike Facts Login</title>
+    <link href="https://realmikefacts.azurewebsites.net/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #212529;
+            text-align: center;
+        }
+        h1 {
+            color: white;
+            text-align: center;
+        }
+        label {
+            display: none;
+        }
+        p {
+            color: #848c92;
+            font-size: small;
+        }
+
+        .container-body {
+            background-color: #343a40;
+            text-align: center;
+        }
+        .intro h2 {
+            text-align: center;
+            display: none;
+        }
+        .entry {
+            width: 400px ;
+            margin-left: auto ;
+            margin-right: auto ;
+            color: white;
+        }
+        .entry-item {
+            padding-top: 10px;
+        }
+        .divider h2 {
+            text-align: center;
+        }
+        .create {
+            width: 400px ;
+            margin-left: auto ;
+            margin-right: auto ;
+            color: white;
+            margin-top: 20%;
+        }
+        .divider {
+            display: none;
+        }
+        .logo {
+            margin-top: 50px;
+            background-color: #212529;
+        }
+
+        #forgotPassword { 
+            position: absolute;
+            margin-top: 20%;
+            top: 35%;
+            left: 35%;
+        }
+    </style>
+</head>
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+        <div class="container">
+            <a style="margin-right: 20px;" href="https://github.com/bobbylite/dotnet-realmikefacts">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                </svg>
+                <br/>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-light d-md-none" href="https://realmikefacts.azurewebsites.net" style="padding-left: 30px">
+                            <div style="display: flex; align-items: center;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-house-door-fill" viewBox="0 0 16 16" style="margin-right: 10px;">
+                                    <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z"/>
+                                </svg>
+                                Home
+                            </div>
+                        </a>
+                        <a class="nav-link text-light d-none d-md-inline" asp-area="" asp-page="/Index" style="padding-left: 30px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-house-door-fill" viewBox="0 0 16 16" style="margin-right: 10px; margin-top: 10px;">
+                                <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z"/>
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<body>
+    <img class="logo" src="https://raw.githubusercontent.com/bobbylite/realmikefacts/master/img/Real-Mike-Facts-Logo-1.png" alt="Mike" width="100" height="100">
+    <div class="container-body">
+        <div id="api"></div>
+    </div>
+    <!--<div class="heading">
+        <h1 role="heading">Sign in</h1>
+    </div>
+    <form id="localAccountForm" action="JavaScript:void(0);" class="localAccount" aria-label="Sign in with your email address">
+        <div class="intro">
+            <h2 aria-level="1">
+                Sign in with your email address
+            </h2>
+        </div>
+        <div class="error pageLevel" aria-hidden="true" role="alert" style="display: none;">
+            <p></p>
+        </div>
+        <div class="entry">
+            <div class="entry-item">
+                <label for="email">
+                    Email Address
+                </label>
+                <div class="error itemLevel" aria-hidden="true" role="alert" style="display: none;">
+                    <p></p>
+                </div>
+                <input type="email" id="email" name="Email Address" title="Please enter a valid email address" pattern="^[a-zA-Z0-9!#$%&amp;'+^_`{}~-]+(?:\.[a-zA-Z0-9!#$%&amp;'+^_`{}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$" autofocus="" placeholder="Email Address" aria-label="Email Address">
+            </div>
+            <div class="entry-item">
+                <div class="password-label">
+                    <label for="password">Password</label>
+                    <a id="forgotPassword" href="/realmikefacts.onmicrosoft.com/B2C_1_realmikefacts_signup_signin_flow/api/CombinedSigninAndSignup/forgotPassword?csrf_token=L25rakxPaUc4TXhlcmRoZTBQT3RHSFYwWlRiUTVmOEE4U1ZLQ2pVK1NxQmV0aTNMR3E4ZkJaS1JNU1c3RzkzdkkwdW9GWWMyS3B5dVJaVmdsemVkNUE9PTsyMDIzLTExLTA1VDAwOjQ1OjQxLjU1OTMwMVo7U2szZ3VBTHVtaDMzOHUycmZkVXAwQT09O3siT3JjaGVzdHJhdGlvblN0ZXAiOjF9&amp;tx=StateProperties=eyJUSUQiOiIxZTIzZDMwZC1hYWM5LTQ0MTYtYjg2Ny05MzRlODQ4NmNhNmMifQ&amp;p=B2C_1_realmikefacts_signup_signin_flow">Forgot your password?</a>
+                </div>
+                <div class="error itemLevel" aria-hidden="true" style="display: none;">
+                    <p role="alert"></p>
+                </div>
+                <input type="password" id="password" name="Password" placeholder="Password" aria-label="Password" autocomplete="current-password" aria-required="true">
+            </div>
+            <div class="working"></div>
+
+
+            <div class="buttons">
+                <button id="next" type="submit" form="localAccountForm">Sign in</button>
+            </div>
+        </div>
+        <div class="divider">
+            <h2>OR</h2>
+        </div>
+        <div class="create">
+            <p>
+                Don't have an account?<a id="createAccount" href="/realmikefacts.onmicrosoft.com/B2C_1_realmikefacts_signup_signin_flow/api/CombinedSigninAndSignup/unified?local=signup&amp;csrf_token=L25rakxPaUc4TXhlcmRoZTBQT3RHSFYwWlRiUTVmOEE4U1ZLQ2pVK1NxQmV0aTNMR3E4ZkJaS1JNU1c3RzkzdkkwdW9GWWMyS3B5dVJaVmdsemVkNUE9PTsyMDIzLTExLTA1VDAwOjQ1OjQxLjU1OTMwMVo7U2szZ3VBTHVtaDMzOHUycmZkVXAwQT09O3siT3JjaGVzdHJhdGlvblN0ZXAiOjF9&amp;tx=StateProperties=eyJUSUQiOiIxZTIzZDMwZC1hYWM5LTQ0MTYtYjg2Ny05MzRlODQ4NmNhNmMifQ&amp;p=B2C_1_realmikefacts_signup_signin_flow">Sign up now</a>
+            </p>
+        </div>
+    </form>-->
+    <footer class="border-top footer text-muted">
+        <p>&copy; 2023 - bobbylite.realmikefacts.web - <a href="https://realmikefacts.azurewebsites.net/Privacy">Privacy</a></p>
+    </footer>
+<script src="https://realmikefacts.azurewebsites.net/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

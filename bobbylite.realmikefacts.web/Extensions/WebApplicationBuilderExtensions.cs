@@ -28,8 +28,7 @@ public static class WebApplicationBuilderExtensions
         
         webApplicationBuilder.Services.AddCors(options =>
         {
-            options.AddPolicy(name: myAllowSpecificOrigins,
-                policy  =>
+            options.AddPolicy(name: myAllowSpecificOrigins, policy =>
                 {
                     policy.WithOrigins("https://realmikefacts.azurewebsites.net",
                         "https://realmikefacts.b2clogin.com");
