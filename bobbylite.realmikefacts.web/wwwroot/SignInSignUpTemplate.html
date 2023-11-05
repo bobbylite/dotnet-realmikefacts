@@ -7,7 +7,7 @@
     <link href="https://realmikefacts.azurewebsites.net/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #343a40;
+            background-color: #212529;
             text-align: center;
         }
         h1 {
@@ -17,7 +17,15 @@
         label {
             display: none;
         }
-        
+        p {
+            color: #848c92;
+            font-size: small;
+        }
+
+        .container-body {
+            background-color: #343a40;
+            text-align: center;
+        }
         .intro h2 {
             text-align: center;
             display: none;
@@ -46,7 +54,7 @@
         }
         .logo {
             margin-top: 50px;
-            background-color: #343a40;
+            background-color: #212529;
         }
 
         #forgotPassword { 
@@ -94,7 +102,9 @@
 </header>
 <body>
     <img class="logo" src="https://raw.githubusercontent.com/bobbylite/realmikefacts/master/img/Real-Mike-Facts-Logo-1.png" alt="Mike" width="100" height="100">
-    <div id="api"></div>
+    <div class="container-body">
+        <div id="api"></div>
+    </div>
     <!--<div class="heading">
         <h1 role="heading">Sign in</h1>
     </div>
@@ -144,9 +154,7 @@
         </div>
     </form>-->
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - bobbylite.realmikefacts.web - <a href="https://realmikefacts.azurewebsites.net/Privacy">Privacy</a>
-        </div>
+        <p>&copy; 2023 - bobbylite.realmikefacts.web - <a href="https://realmikefacts.azurewebsites.net/Privacy">Privacy</a></p>
     </footer>
 <script src="https://realmikefacts.azurewebsites.net/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
