@@ -40,10 +40,6 @@
     <_ContentIncludedByDefault Remove="Views\_ViewStart.cshtml" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\html\" />
-  </ItemGroup>
-
   <Target Name="BeforeBuildTasks" BeforeTargets="BeforeBuild">
         <Exec Command="libman restore" />
         <Exec Command="npm install" />
