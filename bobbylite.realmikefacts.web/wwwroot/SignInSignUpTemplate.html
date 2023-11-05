@@ -13,6 +13,7 @@
         body {
             background-color: #212529;
             text-align: center;
+            align-content: center;
         }
         h1 {
             color: white;
@@ -52,11 +53,12 @@
             color: blue;
         }
         .create {
-            width: 400px ;
+            color: white;
+            align-self: center;
             margin-left: auto ;
             margin-right: auto ;
-            color: white;
-            margin-top: 20%;
+            width: 250px;
+            padding: 20px 20px 150px;
         }
         .divider {
             display: none;
@@ -67,6 +69,10 @@
             border-radius: 50%;
         }
 
+        #createAccount {
+            color: #6ea8fe;
+            padding-left: 5px;
+        }
         #forgotPassword { 
             position: absolute;
             margin-top: 20%;
@@ -80,7 +86,7 @@
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom-dark box-shadow mb-3">
         <div class="container">
             <a style="margin-right: 20px;" href="https://github.com/bobbylite/dotnet-realmikefacts">
-                <img src="svg/github.svg" width="26" height="26" alt="icon" />
+                <img src="https://raw.githubusercontent.com/bobbylite/dotnet-realmikefacts/main/bobbylite.realmikefacts.web/wwwroot/svg/github.svg" width="26" height="26" alt="icon" />
                 <br/>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -92,11 +98,11 @@
                     <li class="nav-item">
                         <a class="nav-link text-light d-md-none" href="https://realmikefacts.azurewebsites.net" style="padding-left: 30px">
                             <div style="display: flex; align-items: center;">
-                                <img src="svg/house-door-fill.svg" width="26" height="26" alt="icon" style="padding-right: 5px;" /> Home
+                                <img src="https://raw.githubusercontent.com/bobbylite/dotnet-realmikefacts/main/bobbylite.realmikefacts.web/wwwroot/svg/house-door-fill.svg" width="26" height="26" alt="icon" style="padding-right: 5px;" /> Home
                             </div>
                         </a>
                         <a class="nav-link text-light d-none d-md-inline" href="https://realmikefacts.azurewebsites.net" style="padding-left: 30px;">
-                            <img src="svg/house-door-fill.svg" width="26" height="26" alt="icon" />
+                            <img src="https://raw.githubusercontent.com/bobbylite/dotnet-realmikefacts/main/bobbylite.realmikefacts.web/wwwroot/svg/house-door-fill.svg" width="26" height="26" alt="icon" />
                         </a>
                     </li>
                 </ul>
@@ -109,7 +115,7 @@
     <div class="container-body">
         <div id="api"></div>
     </div>
-    <!--<div class="heading">
+    <div class="heading">
         <h1 role="heading">Sign in</h1>
     </div>
     <form id="localAccountForm" action="JavaScript:void(0);" class="localAccount" aria-label="Sign in with your email address">
@@ -156,7 +162,7 @@
                 Don't have an account?<a id="createAccount" href="/realmikefacts.onmicrosoft.com/B2C_1_realmikefacts_signup_signin_flow/api/CombinedSigninAndSignup/unified?local=signup&amp;csrf_token=L25rakxPaUc4TXhlcmRoZTBQT3RHSFYwWlRiUTVmOEE4U1ZLQ2pVK1NxQmV0aTNMR3E4ZkJaS1JNU1c3RzkzdkkwdW9GWWMyS3B5dVJaVmdsemVkNUE9PTsyMDIzLTExLTA1VDAwOjQ1OjQxLjU1OTMwMVo7U2szZ3VBTHVtaDMzOHUycmZkVXAwQT09O3siT3JjaGVzdHJhdGlvblN0ZXAiOjF9&amp;tx=StateProperties=eyJUSUQiOiIxZTIzZDMwZC1hYWM5LTQ0MTYtYjg2Ny05MzRlODQ4NmNhNmMifQ&amp;p=B2C_1_realmikefacts_signup_signin_flow">Sign up now</a>
             </p>
         </div>
-    </form>-->
+    </form>
     <footer class="border-top-dark footer text-muted">
         <p>&copy; 2023 - bobbylite.realmikefacts.web - <a style="color: #6ea8fe;" href="https://realmikefacts.azurewebsites.net/Privacy">Privacy</a></p>
     </footer>
