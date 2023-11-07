@@ -85,7 +85,17 @@ public class AdministratorsGroupAuthorizationHandler : AuthorizationHandler<Admi
             context.Succeed(requirement);
             return;
         }
+
+        if (groupInformation.Count == 0)
+        {
+            _authorizationCookieService.CreateCookie(userId);
+            return;
+        }
             
-        _authorizationCookieService.CreateCookie(userId);
+        _authorizationCookieService.AddGroupAuthorizationToCookie(groupAuthorizationModel: new GroupAuthorizationModel
+        {
+            Groups = groupInformation,
+            UserId = userId
+        });
     }
 }
