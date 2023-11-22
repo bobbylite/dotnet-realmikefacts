@@ -2,10 +2,4 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-document.getElementById("container-body").addEventListener("load", () => {
-    document.getElementById("email").className = "form-control form-control-sm"
-    document.getElementById("password").className = "form-control form-control-sm"
-    document.getElementById("next").className = "btn btn-primary";
-    document.getElementById("next").style.marginTop= "10px";
-    console.log("running in onload.");
-});
+
