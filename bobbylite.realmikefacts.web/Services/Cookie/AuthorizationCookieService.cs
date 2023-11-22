@@ -167,9 +167,9 @@ public class AuthorizationCookieService : IAuthorizationCookieService
         Guard.Against.Null(groupAuthorizationModel);
         Guard.Against.Null(cookieOptions);
         
-        var newSerializedJson = JsonSerializer.Serialize(groupAuthorizationModel);
-        var newBytes = Encoding.ASCII.GetBytes(newSerializedJson);
-        var base64SerializedJson = Convert.ToBase64String(newBytes);
+        var serializedJson = JsonSerializer.Serialize(groupAuthorizationModel);
+        var bytes = Encoding.ASCII.GetBytes(serializedJson);
+        var base64SerializedJson = Convert.ToBase64String(bytes);
         
         _httpContextAccessor.HttpContext?.Response.Cookies.Append(CookieKey, base64SerializedJson, cookieOptions);
     }
