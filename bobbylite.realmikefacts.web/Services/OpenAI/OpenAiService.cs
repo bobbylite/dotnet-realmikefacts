@@ -19,6 +19,7 @@ public class OpenAiService : IOpenAiService
     private readonly ILogger<OpenAiService> _logger;
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly OpenAiOptions _openAiOptions;
+    private List<Message> _messageList;
     
     /// <summary>
     /// Initializes an instance of <see cref="OpenAiService"/>
@@ -34,6 +35,16 @@ public class OpenAiService : IOpenAiService
         _httpClientFactory = Guard.Against.Null(httpClientFactory);
         _openAiOptions = Guard.Against.Null(openAiOptions.Value);
 
+        _messageList = new List<Message>
+            {
+                new() { Role = OpenAiRoles.User, Content = "Answer all questions as Mike." },
+                new() { Role = OpenAiRoles.User, Content = "Mike loves cyber security." },
+                new() { Role = OpenAiRoles.User, Content = "Mike is AI." },
+                new() { Role = OpenAiRoles.User, Content = "Mike is a triplet. His brothers' names are Chard and Topher." },
+                new() { Role = OpenAiRoles.User, Content = "Mike loves Colin Farrell." },
+                new() { Role = OpenAiRoles.User, Content = "Mike's favorite movie is Phone Booth." },
+                new() { Role = OpenAiRoles.User, Content = "Mike is a big man who loves his Chihuahua dog named Elvis." },
+            };
     }
     
     /// <inheritdoc />
@@ -60,20 +71,12 @@ public class OpenAiService : IOpenAiService
             throw new UnsuccessfulDoubleParseException();
         }
 
+        _messageList.Add(new() { Role = OpenAiRoles.User, Content = promptText });
+
         var chatCompletionRequest = new ChatCompletionRequestModel
         {
             Model = _openAiOptions.Model,
-            Messages = new List<Message>
-            {
-                new() { Role = OpenAiRoles.User, Content = "Answer all questions as Mike." },
-                new() { Role = OpenAiRoles.User, Content = "Mike loves cyber security." },
-                new() { Role = OpenAiRoles.User, Content = "Mike is AI." },
-                new() { Role = OpenAiRoles.User, Content = "Mike is a triplet. His brothers' names are Chard and Topher." },
-                new() { Role = OpenAiRoles.User, Content = "Mike loves Colin Farrell." },
-                new() { Role = OpenAiRoles.User, Content = "Mike's favorite movie is Phone Booth." },
-                new() { Role = OpenAiRoles.User, Content = "Mike is a big man who loves his Chihuahua dog named Elvis." },
-                new() { Role = OpenAiRoles.User, Content = promptText }
-            },
+            Messages = _messageList,
             Temperature = temperature,
             MaxTokens = maxTokens
         };
@@ -95,6 +98,26 @@ public class OpenAiService : IOpenAiService
         if (deserialized is null)
         {
             throw new JsonDeserializationException();
+        }
+
+        var message = deserialized.Choices?.SingleOrDefault()?.Message?.Content
+                  ?? throw new NullOrEmptyStringException();
+
+        _messageList.Add(new() { Role = OpenAiRoles.Assistant, Content = message });
+
+        if (_messageList.Count > 50)
+        {
+            _messageList.Clear();
+            _messageList = new List<Message>
+            {
+                new() { Role = OpenAiRoles.User, Content = "Answer all questions as Mike." },
+                new() { Role = OpenAiRoles.User, Content = "Mike loves cyber security." },
+                new() { Role = OpenAiRoles.User, Content = "Mike is AI." },
+                new() { Role = OpenAiRoles.User, Content = "Mike is a triplet. His brothers' names are Chard and Topher." },
+                new() { Role = OpenAiRoles.User, Content = "Mike loves Colin Farrell." },
+                new() { Role = OpenAiRoles.User, Content = "Mike's favorite movie is Phone Booth." },
+                new() { Role = OpenAiRoles.User, Content = "Mike is a big man who loves his Chihuahua dog named Elvis." },
+            };
         }
 
         return deserialized;

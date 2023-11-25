@@ -8,6 +8,55 @@
     <script src="https://realmikefacts.azurewebsites.net/lib/bootstrap/js/bootstrap.bundle.min.js" defer></script>
     <script src="https://realmikefacts.azurewebsites.net/lib/jquery/jquery.min.js" defer></script>
     <style>
+        /* CSS for a text ticker */
+        .ticker {
+        overflow: hidden; /* Hide the overflow */
+        white-space: nowrap; /* Prevent wrapping of text */
+        position: relative;
+        }
+        
+        .ticker p {
+        display: inline-block;
+        /*margin-right: 100%; /* Move text far to the right, creating a scrolling effect */
+        animation: ticker 30s linear infinite; /* Adjust the time as needed */
+        }
+        
+        @@keyframes ticker {
+        0% {
+            transform: translateX(100%); /* Start from the right and move left */
+        }
+        100% {
+            transform: translateX(-100%); /* End on the left, creating a loop */
+        }
+        }
+
+        .typing-container {
+            position: relative;
+        }
+        
+        #typing-text {
+            display: none; /* Hide text initially */
+            font-size: 24px;
+        }
+        
+        #typing-cursor::after {
+            content: "|"; /* Blinking cursor */
+            animation: blink 1s infinite;
+        }
+        
+        @@keyframes blink {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+    <style>
         {
             color: blue;
             background-color: blue;
@@ -269,5 +318,23 @@
     <footer class="bg-dark text-muted sticky-footer">
         <p>&copy; 2023 - bobbylite.realmikefacts.web - <a style="color: #6ea8fe;" href="https://realmikefacts.azurewebsites.net/Privacy">Privacy</a></p>
     </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const button = document.getElementById("next");
+            button.setAttribute("data-loading-text", '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Sign in');
+            const form = button.closest("form");
+            form.addEventListener("submit", function () {
+                if (button.getAttribute("data-loading") === "true") {
+                    event.preventDefault();
+                } else {
+                    button.disabled = true;
+                    button.setAttribute("data-loading", "true");
+                    button.innerHTML = button.getAttribute("data-loading-text");
+                    const spinner = button.querySelector('.spinner-border');
+                    spinner.classList.remove('d-none');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

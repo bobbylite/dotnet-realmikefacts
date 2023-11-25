@@ -59,11 +59,9 @@
     <h1 class="display-4"><img style="padding-right: 20px; padding-bottom: 10px" src="https://raw.githubusercontent.com/bobbylite/realmikefacts/master/img/Real-Mike-Facts-Logo-1.png" alt="Mike" width="70" height="60">Meet Mike</h1>
     <div class="nav-link text-light">
         <div class="nav-link text-light">Hello @User.Identity!.Name,</div>
-        This is a trained open ai version of Mike. Mike has only been trained on his job. 
+        This is a trained open ai version of Mike. 
         <br/>
-        Remembr this is just the beta.  More features will be coming soon!
-        <br/>
-        Thank you for beta testing our app. We appreciate your love and support!
+        Thank you for trying out our app. We appreciate your love and support!
     </div>
     <br/>
     <br/>
@@ -110,6 +108,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 document.addEventListener("DOMContentLoaded", function () {
     const button = document.getElementById("myButton");
+    
     const form = button.closest("form");
     form.addEventListener("submit", function () {
         if (button.getAttribute("data-loading") === "true") {
