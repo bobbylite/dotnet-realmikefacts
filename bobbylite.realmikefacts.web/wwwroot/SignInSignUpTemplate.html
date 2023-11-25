@@ -7,6 +7,24 @@
     <link href="https://realmikefacts.azurewebsites.net/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://realmikefacts.azurewebsites.net/lib/bootstrap/js/bootstrap.bundle.min.js" defer></script>
     <script src="https://realmikefacts.azurewebsites.net/lib/jquery/jquery.min.js" defer></script>
+    <script defer>
+        document.addEventListener("DOMContentLoaded", function () {
+            const button = document.getElementById("next");
+            button.setAttribute("data-loading-text", '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Sign in');
+            const form = button.closest("form");
+            form.addEventListener("submit", function () {
+                if (button.getAttribute("data-loading") === "true") {
+                    event.preventDefault();
+                } else {
+                    button.disabled = true;
+                    button.setAttribute("data-loading", "true");
+                    button.innerHTML = button.getAttribute("data-loading-text");
+                    const spinner = button.querySelector('.spinner-border');
+                    spinner.classList.remove('d-none');
+                }
+            });
+        });
+    </script>
     <style>
         /* CSS for a text ticker */
         .ticker {
@@ -137,11 +155,15 @@
             padding-left: 5px;
         }
         #forgotPassword { 
+            color: #6ea8fe;
+            align-self: center;
+            margin-left: auto ;
+            margin-right: auto ;
+            width: 250px;
+            margin-top: 130px;
+            margin-left: -120px;
             position: absolute;
-            margin-top: 20%;
-            top: 35%;
-            left: 35%;
-            display: none;
+            font-size: 14px;
         }
         #email { 
             max-width: 250px;
@@ -318,23 +340,5 @@
     <footer class="bg-dark text-muted sticky-footer">
         <p>&copy; 2023 - bobbylite.realmikefacts.web - <a style="color: #6ea8fe;" href="https://realmikefacts.azurewebsites.net/Privacy">Privacy</a></p>
     </footer>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const button = document.getElementById("next");
-            button.setAttribute("data-loading-text", '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Sign in');
-            const form = button.closest("form");
-            form.addEventListener("submit", function () {
-                if (button.getAttribute("data-loading") === "true") {
-                    event.preventDefault();
-                } else {
-                    button.disabled = true;
-                    button.setAttribute("data-loading", "true");
-                    button.innerHTML = button.getAttribute("data-loading-text");
-                    const spinner = button.querySelector('.spinner-border');
-                    spinner.classList.remove('d-none');
-                }
-            });
-        });
-    </script>
 </body>
 </html>
