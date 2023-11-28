@@ -2,6 +2,7 @@ using bobbylite.realmikefacts.web.Authorization;
 using bobbylite.realmikefacts.web.Configuration;
 using bobbylite.realmikefacts.web.Constants;
 using bobbylite.realmikefacts.web.Extensions;
+using bobbylite.realmikefacts.web.Services.AccessRequest;
 using bobbylite.realmikefacts.web.Services.Cookie;
 using bobbylite.realmikefacts.web.Services.Graph;
 using bobbylite.realmikefacts.web.Services.OpenAI;
@@ -28,6 +29,7 @@ public class ServiceCollectionExtensionsTests
         serviceCollection.AddLogging();
         serviceCollection.AddSingleton<IAuthorizationCookieService, AuthorizationCookieService>();
         serviceCollection.AddSingleton<IGraphService, GraphService>();
+        serviceCollection.AddSingleton<IAccessRequestService, AccessRequestService>();
         serviceCollection.AddGroupAuthorization();
         var serviceProvider = serviceCollection.BuildServiceProvider();
         var handlers = serviceProvider.GetServices<IAuthorizationHandler>();
@@ -110,7 +112,9 @@ public class ServiceCollectionExtensionsTests
         var tokenService = serviceProvider.GetService<ITokenService>();
         var twitterService = serviceProvider.GetService<ITwitterService>();
         var authorizationCookieService = serviceProvider.GetService<IAuthorizationCookieService>();
+        var accessRequestService = serviceProvider.GetService<IAccessRequestService>();
         
+        Assert.NotNull(accessRequestService);
         Assert.NotNull(graphService);
         Assert.NotNull(openAiService);
         Assert.NotNull(tokenService);

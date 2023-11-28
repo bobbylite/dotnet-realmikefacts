@@ -17,49 +17,39 @@
         </div>
 
         <br/>
-
-        <table class="table table-striped table-dark">
-            <thead>
-                <tr>
-                <th scope="col">#</th>
-                <th scope="col">Requested Access</th>
-                <th scope="col">Username</th>
-                <th scope="col">Time of request</th>
-                <th scope="col">Grant Access</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                <th scope="row">1</th>
-                <td>Administrator</td>
-                <td>marymark</td>
-                <td>11/1/2023 9:18 PM</td>
-                <td>
-                    <span><button type="button" class="btn btn-success">Approve</button></span>
-                    <span><button type="button" class="btn btn-danger">Deny</button></span>
-                </td>
-                </tr>
-                <tr>
-                <th scope="row">2</th>
-                <td>Beta Tester</td>
-                <td>jakeyboi</td>
-                <td>11/1/2023 9:18 PM</td>
-                <td>
-                    <span><button type="button" class="btn btn-success">Approve</button></span>
-                    <span><button type="button" class="btn btn-danger">Deny</button></span>
-                </td>
-                </tr>
-                <tr>
-                <th scope="row">3</th>
-                <td>Beta Tester</td>
-                <td>TheBird</td>
-                <td>11/1/2023 9:18 PM</td>
-                <td>
-                    <span><button type="button" class="btn btn-success">Approve</button></span>
-                    <span><button type="button" class="btn btn-danger">Deny</button></span>
-                </td>
-                </tr>
-            </tbody>
-        </table>
+        
+        <form method="post">
+            <table class="table table-striped table-dark">
+                <thead>
+                    <tr>
+                    <th scope="col">Display Name</th>
+                    <th scope="col">Requested Access</th>
+                    <th scope="col">User Id</th>
+                    <th scope="col">Time of request</th>
+                    <th scope="col">Grant Access</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var request in @Model.GetAllRequests().Values)
+                    {
+                        <tr>
+                            <td>@request.DisplayName</td>
+                            <td>@request.RequestedResource?.DisplayName</td>
+                            <td>@request.UserId</td>
+                            <td>@request.Timestamp</td>
+                            <td>
+                                <span>
+                                    <input style="display: none;" asp-for="Data" value="@System.Text.Json.JsonSerializer.Serialize(@request)" />
+                                    <button asp-page-handler="Approve" type="submit" class="btn btn-success">Approve</button>
+                                </span>
+                                <span>
+                                    <button asp-page-handler="Deny" type="submit" class="btn btn-danger">Deny</button>
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>  
+        </form>
     }
 </div>
