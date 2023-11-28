@@ -7,23 +7,25 @@
     <link href="https://realmikefacts.azurewebsites.net/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://realmikefacts.azurewebsites.net/lib/bootstrap/js/bootstrap.bundle.min.js" defer></script>
     <script defer>
-        const forgotPasswordButton = document.getElementById("forgotPassword");
-        forgotPasswordButton.href = "https://realmikefacts.b2clogin.com/realmikefacts.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_realmikefacts_forgot_password&client_id=3d0989fb-80d7-42d9-b1e9-6e9528c105bc&nonce=defaultNonce&redirect_uri=https%3A%2F%2Frealmikefacts.azurewebsites.net%2Fsignin-oidc&scope=openid&response_type=id_token&prompt=login";
+        document.addEventListener("DOMContentLoaded", function () {
+            const forgotPasswordButton = document.getElementById("forgotPassword");
+            forgotPasswordButton.href = "https://realmikefacts.b2clogin.com/realmikefacts.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_realmikefacts_forgot_password&client_id=3d0989fb-80d7-42d9-b1e9-6e9528c105bc&nonce=defaultNonce&redirect_uri=https%3A%2F%2Frealmikefacts.azurewebsites.net%2Fsignin-oidc&scope=openid&response_type=id_token&prompt=login";
 
-        const button = document.getElementById("next");
-        button.setAttribute("data-loading-text", '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Sign in');
-        const form = button.closest("form");
+            const button = document.getElementById("next");
+            button.setAttribute("data-loading-text", '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Sign in');
+            const form = button.closest("form");
 
-        form.addEventListener("submit", function () {
-            if (button.getAttribute("data-loading") === "true") {
-                event.preventDefault();
-            } else {
-                button.disabled = true;
-                button.setAttribute("data-loading", "true");
-                button.innerHTML = button.getAttribute("data-loading-text");
-                const spinner = button.querySelector('.spinner-border');
-                spinner.classList.remove('d-none');
-            }
+            form.addEventListener("submit", function () {
+                if (button.getAttribute("data-loading") === "true") {
+                    event.preventDefault();
+                } else {
+                    button.disabled = true;
+                    button.setAttribute("data-loading", "true");
+                    button.innerHTML = button.getAttribute("data-loading-text");
+                    const spinner = button.querySelector('.spinner-border');
+                    spinner.classList.remove('d-none');
+                }
+            });
         });
     </script>
     <style>
@@ -155,13 +157,16 @@
             color: #6ea8fe;
             padding-left: 5px;
         }
-        #forgotPassword { 
+        #forgotPassword {
+            display: none;
+        }
+        #forgotPasswordCustom { 
             color: #6ea8fe;
             align-self: center;
             margin-left: auto ;
             margin-right: auto ;
             width: 250px;
-            margin-top: 130px;
+            margin-top: -150px;
             margin-left: -120px;
             position: absolute;
             font-size: 14px;
@@ -338,6 +343,7 @@
             </p>
         </div>
     </form>-->
+    <a id="forgotPasswordCustom" href="https://realmikefacts.b2clogin.com/realmikefacts.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_realmikefacts_forgot_password&client_id=3d0989fb-80d7-42d9-b1e9-6e9528c105bc&nonce=defaultNonce&redirect_uri=https%3A%2F%2Frealmikefacts.azurewebsites.net%2Fsignin-oidc&scope=openid&response_type=id_token&prompt=login">Forgot your password?</a>
     <footer class="bg-dark text-muted sticky-footer">
         <p>&copy; 2023 - bobbylite.realmikefacts.web - <a style="color: #6ea8fe;" href="https://realmikefacts.azurewebsites.net/Privacy">Privacy</a></p>
     </footer>
