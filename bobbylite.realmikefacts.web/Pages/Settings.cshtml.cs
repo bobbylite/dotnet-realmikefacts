@@ -65,7 +65,13 @@ public class Settings : PageModel
     /// </summary>
     public async Task<IActionResult> OnGet()
     {
-        var cookie = HttpContext.Request.Cookies[".AspNetCore.Custom.Auth.Cookies"];
+        var userId = User.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+        
+        if (string.IsNullOrEmpty(userId))
+        {
+            throw new NullOrEmptyStringException(nameof(userId));
+        }
+        
 
         var groupCollection = await _graphService.GetAllAvailableGroups();
         var groups = groupCollection?.Value?.ToList();
@@ -75,22 +81,15 @@ public class Settings : PageModel
             return Page();
         }
 
-        if (string.IsNullOrEmpty(cookie))
-        {
-            throw new NullOrEmptyStringException(nameof(cookie));
-        }
-        
-        byte[] bytes = Convert.FromBase64String(cookie);
-        var serializedJson = Encoding.ASCII.GetString(bytes);
-        var groupAuthorizationModel = JsonSerializer.Deserialize<GroupAuthorizationModel>(serializedJson);
+        var groupMemberships = await _graphService.GetAllGroupMemberships(userId);
 
-        if (groupAuthorizationModel?.Groups is null || groupAuthorizationModel.Groups.Count == 0)
+        if (groupMemberships is null || groupMemberships.ToList().Count == 0)
         {
             Groups = groups;
             return Page();
         }
 
-        foreach(var groupMembership in groupAuthorizationModel.Groups)
+        foreach(var groupMembership in groupMemberships.ToList())
         {
             groups.RemoveAll(g => g.Id == groupMembership.Id);
         }
@@ -130,19 +129,12 @@ public class Settings : PageModel
             });
         }
         
-        var cookie = HttpContext.Request.Cookies[".AspNetCore.Custom.Auth.Cookies"];
-
         var groupCollection = await _graphService.GetAllAvailableGroups();
         var groups = groupCollection?.Value?.ToList();
 
         if (groups is null)
         {
             return Page();
-        }
-
-        if (string.IsNullOrEmpty(cookie))
-        {
-            throw new NullOrEmptyStringException(nameof(cookie));
         }
 
         var requests = _accessRequestService.GetAllAccessRequests();
