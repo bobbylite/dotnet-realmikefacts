@@ -56,7 +56,7 @@ public class AuthorizationCookieService : IAuthorizationCookieService
             return false;
         }
 
-        var matchedGroupIds = groupAuthorizationModel?.Groups?.Where(g => g.GroupId! == groupId);
+        var matchedGroupIds = groupAuthorizationModel?.Groups?.Where(g => g.Id! == groupId);
 
         isMember = matchedGroupIds?.ToList().Count is not 0;
 
@@ -136,7 +136,7 @@ public class AuthorizationCookieService : IAuthorizationCookieService
             {
                 new GroupInformation
                 {
-                    GroupId = groupId
+                    Id = groupId
                 }
             },
             UserId = userId

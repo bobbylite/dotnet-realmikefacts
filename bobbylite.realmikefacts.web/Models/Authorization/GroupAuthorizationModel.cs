@@ -30,5 +30,17 @@ public class GroupInformation
     /// Group Id.
     /// </summary>
     [JsonPropertyName("group_id")]
-    public string? GroupId { get; set; }
+    public string? Id { get; set; }
+
+    /// <summary>
+    /// Display name.
+    /// </summary>
+    [JsonPropertyName("group_display_name")]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Description.
+    /// </summary>
+    [JsonPropertyName("description")]
+    public string? Description { get; set; }
 }
