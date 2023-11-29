@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.Text;
 using System.Text.Json;
 using Ardalis.GuardClauses;
 using bobbylite.realmikefacts.web.Constants;
@@ -9,7 +8,6 @@ using bobbylite.realmikefacts.web.Services.AccessRequest;
 using Microsoft.AspNetCore.Authorization;
 using bobbylite.realmikefacts.web.Services.Cookie;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Graph;
 using bobbylite.realmikefacts.web.Services.Graph;
 using Microsoft.Graph.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +22,6 @@ public class Settings : PageModel
 {
     private readonly ILogger<Settings> _logger;
     private readonly AccessRequestService _accessRequestService;
-    private readonly IAuthorizationCookieService _authorizationCookieService;
     private readonly IGraphService _graphService;
 
     /// <summary>
@@ -32,14 +29,11 @@ public class Settings : PageModel
     /// </summary>
     /// <param name="logger">Logger from DI.</param>
     /// <param name="accessRequestService"></param>
-    /// <param name="authorizationCookieService"></param>
     /// <param name="graphService"></param>
     public Settings(ILogger<Settings> logger, 
         IAccessRequestService accessRequestService,
-        IAuthorizationCookieService authorizationCookieService,
         IGraphService graphService)
     {
-        _authorizationCookieService = Guard.Against.Null(authorizationCookieService);
         _logger = Guard.Against.Null(logger);
         _graphService = Guard.Against.Null(graphService);
         Guard.Against.Null(accessRequestService);
@@ -74,7 +68,7 @@ public class Settings : PageModel
         
 
         var groupCollection = await _graphService.GetAllAvailableGroups();
-        var groups = groupCollection?.Value?.ToList();
+        var groups = groupCollection.Value?.ToList();
 
         if (groups is null)
         {
