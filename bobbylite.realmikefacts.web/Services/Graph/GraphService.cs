@@ -88,6 +88,24 @@ public class GraphService : IGraphService
 
         return userList;
     }
+    
+    /// <inheritdoc/>
+    public async Task<GroupCollectionResponse> GetAllAvailableGroups()
+    {
+        var scopes = new[] { "https://graph.microsoft.com/.default" };
+        var clientSecretCredential = new ClientSecretCredential(_azureOptions.TenantId, _azureOptions.ClientId,
+            _azureOptions.ClientSecret);
+        var graphClient = new GraphServiceClient(clientSecretCredential, scopes);
+
+        var groups = await graphClient.Groups.GetAsync();
+
+        if (groups is null)
+        {
+            throw new NullObjectException(nameof(groups));
+        }
+
+        return groups;
+    }
 
     /// <summary>
     /// 

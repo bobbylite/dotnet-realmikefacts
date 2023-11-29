@@ -4,6 +4,7 @@ using bobbylite.realmikefacts.web.Models.Authorization;
 using bobbylite.realmikefacts.web.Services.Cookie;
 using bobbylite.realmikefacts.web.Services.Graph;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Graph.Models;
 
 namespace bobbylite.realmikefacts.web.Authorization;
 
@@ -64,14 +65,22 @@ public class BetaTestersGroupAuthorizationHandler : AuthorizationHandler<BetaTes
         
         foreach (var directoryObject in directoryObjects)
         {
-            if (GroupId == directoryObject.Id)
+            if (directoryObject.OdataType != "#microsoft.graph.group")
+            {
+                continue;
+            }
+            
+            Group group = (Group)directoryObject;
+            if (GroupId == group.Id)
             {
                 isMember = true;
             }
             
             groupInformation.Add(new GroupInformation
             {
-                GroupId = directoryObject.Id
+                Id = directoryObject.Id,
+                DisplayName = group.DisplayName,
+                Description = group.Description
             });
         }
         

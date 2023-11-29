@@ -40,21 +40,62 @@
 
         <br/>
 
-        <h1 class="display-6">Request Access</h1>
-
+        <h1 class="display-6">Groups</h1>
+        <br/>
         <table class="table table-striped table-dark">
             <tbody>
-                <tr>
-                    <td>Administrator</td>
-                    <td>@User.Identity!.Name</td>
-                    <td>
-                        <span>
-                            <form method="post">
-                                <button type="submit" class="btn btn-success">Request Access</button>
-                            </form>
-                        </span>
-                    </td>
-                </tr>
+                @if (!@Model.Groups.Any())
+                {
+                    <div class="nav-link text-light">
+                        No other groups are made available to you, @User.Identity.Name.
+                    </div>
+                    <div class="nav-link text-light">
+                        A RealMikeFacts administrator will be reviewing your access requests shortly.
+                    </div>
+                }
+                else 
+                {
+                    <tr>
+                        <th scope="col">Group Id</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Requested By</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                }
+
+                @foreach(var group in @Model.Groups)
+                {
+                    var userId = User.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+                    var requests = Model.GetPendingAccessRequests();
+                    var alreadyPending = requests
+                        .Where(r => r.RequestedResource?.Id == group.Id && r.UserId == userId).ToList();
+                    
+                    @if(alreadyPending.Count > 0)
+                    {
+                        continue;
+                    }
+
+                    <tr>
+                        <td>@group.Id</td>
+                        <td>@group.Description</td>
+                        <td>@User.Identity!.Name</td>
+                        <td>
+                            <span>
+                                <form method="post">
+                                    @{
+                                        var groupInformation = new Models.Authorization.GroupInformation(){
+                                            Id = group.Id,
+                                            Description = group.Description,
+                                            DisplayName = group.DisplayName
+                                        };
+                                        <input style="display: none;" asp-for="GroupInformation" value="@System.Text.Json.JsonSerializer.Serialize(groupInformation)" />
+                                    }
+                                    <button id="requestAccesssButton" type="submit" class="btn btn-success">Request Access</button>
+                                </form>
+                            </span>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     }
