@@ -35,4 +35,10 @@ public interface IGraphService
     /// <param name="groupId"></param>
     /// <returns></returns>
     public Task AddUserToGroup(string userId, string groupId);
+
+    /// <summary>
+    /// Gets all available groups in Azure Ad.
+    /// </summary>
+    /// <returns></returns>
+    public Task<GroupCollectionResponse> GetAllAvailableGroups();
 }

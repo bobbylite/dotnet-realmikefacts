@@ -171,7 +171,7 @@ public class AuthorizationCookieServiceTests
             {
                 new GroupInformation
                 {
-                    GroupId = "SomeGroupId"
+                    Id = "SomeGroupId"
                 }
             },
             UserId = "UserId"
