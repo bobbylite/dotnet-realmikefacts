@@ -8,7 +8,7 @@
                 </svg> :  @User.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value
             </p>
         </li>
-        <li class="nav-item popup-tour-settings">
+        <li id="settings-icon" class="nav-item">
             <a id="settings-button" class="nav-link text-light d-md-none" asp-area="" asp-page="/Settings" style="padding-left: 30px">
                 <div style="display: flex; align-items: center;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16" style="margin-right: 10px;">

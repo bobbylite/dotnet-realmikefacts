@@ -76,33 +76,61 @@ function BeginAccessDeniedTour() {
         classes: "custom-tour",
         buttons: [
           {
-            text: "Complete",
+            text: "Continue",
             action: tour.next,
           },
         ],
       };
-      
-      const stepThree = {
-        id: "step3",
-        text: "Go to your settings page to see group policies made available to you and request access to which ever ones you want. You will need <code>Beta testers</code> group policy for this page.",
-        attachTo: {
-          element: ".popup-tour-settings",
-          on: "bottom",
-        },
-        classes: "custom-tour",
-        buttons: [
-          {
-            text: "Complete",
-            action: tour.next,
-          },
-        ],
-      };
-      
+
       tour.addSteps([
         Intro,
         stepOne,
-        stepTwo,
+        stepTwo
       ]);
+
+      if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || document.body.clientWidth < 600) {
+        console.log('mobile device detected')
+        let stepThree = {
+            id: "step3",
+            text: "Go to your settings page to see group policies made available to you and request access to which ever ones you want. You will need <code>Beta testers</code> group policy for this page.",
+            attachTo: {
+                element: '.popup-tour-menu-icon',
+                on: "bottom",
+            },
+            classes: "custom-tour",
+            buttons: [
+                {
+                text: "Complete",
+                action: tour.next,
+                },
+            ],
+        };
+
+        tour.addSteps([
+            stepThree
+        ]);
+      }
+      else {
+        let stepThree = {
+            id: "step3",
+            text: "Go to your settings page to see group policies made available to you and request access to which ever ones you want. You will need <code>Beta testers</code> group policy for this page.",
+            attachTo: {
+                element: '#settings-icon',
+                on: "bottom",
+            },
+            classes: "custom-tour",
+            buttons: [
+                {
+                text: "Complete",
+                action: tour.next,
+                },
+            ],
+        };
+
+        tour.addSteps([
+            stepThree
+        ]);
+      }
 
       tour.start();
 }
