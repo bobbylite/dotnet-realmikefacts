@@ -72,17 +72,17 @@
                         <p>If you have any questions or need assistance, please contact us.</p>
                     </div>
                     <div class="col-md-6">
-                        <form>
+                        <form id="customer-form">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Your Name">
+                                <input autocomplete="off" name="name" id="name" type="text" class="form-control" placeholder="Your Name">
                             </div>
                             <div class="form-group">
-                                <input type="email" class="form-control" placeholder="Your Email">
+                                <input autocomplete="off" name="email" id="email" type="email" class="form-control" placeholder="Your Email">
                             </div>
                             <div class="form-group">
-                                <textarea class="form-control" rows="4" placeholder="Your Message"></textarea>
+                                <textarea name="message" id="message" class="form-control" rows="4" placeholder="Your Message"></textarea>
                             </div>
-                            <button type="submit" class="btn btn-primary">Send Message</button>
+                            <button id="user-message-button" type="submit" class="btn btn-primary">Send Message</button>
                         </form>
                     </div>
                 </div>
