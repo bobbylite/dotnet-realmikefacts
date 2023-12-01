@@ -52,9 +52,9 @@ function BeginAccessDeniedTour() {
       
       const stepOne = {
         id: 'first-step',
-        text: "Cause: C# attribute <code>[Authorize(Policy = PolicyNames.GroupPolicyName)]</code>",
+        text: "Cause: C# attribute <code>[Authorize(Policy = PolicyNames.GroupPolicyName)]</code>. Go to your settings page to see group policies made available to you and request access to which ever ones you want. You will need <code>Beta testers</code> group policy for this page.",
         attachTo: {
-            element: '.text-danger',
+            element: '.pb-3',
             on: 'bottom'
         },
         classes: 'custom-tour',
@@ -76,7 +76,7 @@ function BeginAccessDeniedTour() {
         classes: "custom-tour",
         buttons: [
           {
-            text: "continue",
+            text: "Complete",
             action: tour.next,
           },
         ],
@@ -102,7 +102,6 @@ function BeginAccessDeniedTour() {
         Intro,
         stepOne,
         stepTwo,
-        stepThree
       ]);
 
       tour.start();
