@@ -75,7 +75,7 @@ function BeginAccessRequestTour() {
             text: "Here's how to make an Access Request for the <code>Beta tester</code> group policy. A RealMikeFacts administrator will approve or deny your request.",
             attachTo: {
                 element: '.popup-groups-tour',
-                on: 'left'
+                on: 'bottom'
             },
             classes: 'custom-tour',
             buttons: [
@@ -159,7 +159,7 @@ function BeginAccessDeniedTour() {
             id: "step3",
             text: () => {
                 if ($(".navbar-collapse").hasClass("collapse")) {
-                    $(".navbar-collapse").show();
+                    $(".navbar-collapse").slideDown();
                 }
                 else {
                     $(".navbar-collapse").hide();
@@ -168,15 +168,15 @@ function BeginAccessDeniedTour() {
             },
             attachTo: {
                 element: '#settings-icon',
-                on: "right",
+                on: "bottom",
             },
             classes: "custom-tour",
             buttons: [
                 {
                     text: "Finish",
                     action: () => {
-                        continue_tour_on_next_page("/", "step3", "AccessDeniedTour");
                         tour.complete();
+                        go_home("step3", "AccessDeniedTour");
                     },
                     secondary: true
                 },
@@ -256,6 +256,11 @@ function getQueryVariable(variable) {
         }
     }
     return false
+}
+
+function go_home(step, tour=Shepherd.activeTour.options.id){
+    var new_route = `/?shepherdTour=${tour}&shepherdStep=${step}`
+    window.location.replace(new_route);
 }
 
 function continue_tour_on_next_page(route, step, tour=Shepherd.activeTour.options.id){
