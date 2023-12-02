@@ -24,3 +24,7 @@ body {
 .custom-tour {
   font-family: 'proxima-nova', sans-serif;;
 }
+
+.invisible-tour {
+  display: none;
+}
