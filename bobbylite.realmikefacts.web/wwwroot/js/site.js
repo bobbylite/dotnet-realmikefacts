@@ -8,17 +8,93 @@ window.addEventListener('load', () => {
 });
 
 function PopupTour(){ 
-    const errorMessage = document.getElementsByClassName("text-danger");
+    const isErrorPage = document.getElementsByClassName("text-danger");
 
-    if (!errorMessage)
+    if (!isErrorPage)
     {
         return;
     }
 
-    if (errorMessage.length > 0)
+    if (isErrorPage.length > 0)
     { 
         BeginAccessDeniedTour();
     }
+
+    const isSettingsPage = document.getElementsByClassName("popup-groups-tour");
+
+    if (!isSettingsPage)
+    {
+        return;
+    }
+
+    if (isSettingsPage.length > 0)
+    { 
+        BeginAccessRequestTour();
+    }
+}
+
+function BeginAccessRequestTour() {
+      if (getQueryVariable('shepherdTour') != false){
+        const tour = new Shepherd.Tour({
+            useModalOverlay: true,
+            defaultStepOptions: {
+                classes: "shadow-md bg-purple-dark",
+                scrollTo: true,
+                scrollTo: {
+                behavior: "smooth",
+                block: "center",
+                },
+            },
+        });
+
+        const stepOne = {
+            id: 'stepOne',
+            text: "Here's where you can find group policies and create <code>Acess Requests</code>.",
+            attachTo: {
+                element: 'tbody',
+                on: 'top'
+            },
+            classes: 'custom-tour',
+            buttons: [
+                {
+                    text: 'Skip',
+                    action: () => {
+                        tour.complete();
+                    },
+                    secondary: true
+                },
+                {
+                    text: 'Continue',
+                    action: tour.next
+                }
+            ]
+        };
+
+        const stepTwo = {
+            id: 'stepTwo',
+            text: "Here's how to make an Access Request for the <code>Beta tester</code> group policy. A RealMikeFacts administrator will approve or deny your request.",
+            attachTo: {
+                element: '.popup-groups-tour',
+                on: 'left'
+            },
+            classes: 'custom-tour',
+            buttons: [
+                {
+                    text: 'Finish',
+                    action: () => {
+                        tour.complete();
+                    }
+                }
+            ]
+        };
+
+        tour.addSteps([
+            stepOne,
+            stepTwo
+        ]);
+
+        tour.start();
+      }
 }
 
 function BeginAccessDeniedTour() {
@@ -32,27 +108,11 @@ function BeginAccessDeniedTour() {
             block: "center",
           },
         },
-      });
+    });
       
-      const Intro = {
-        id: "intro-step",
-        text: "You can resolve <code>Access Denied</code> by creating an Access Request.",
-        attachTo: {
-          element: "",
-          on: "center",
-        },
-        classes: "custom-tour",
-        buttons: [
-          {
-            text: "Start tour",
-            action: tour.next,
-          },
-        ],
-      };
-      
-      const stepOne = {
+    const stepOne = {
         id: 'first-step',
-        text: "Cause: C# attribute <code>[Authorize(Policy = PolicyNames.GroupPolicyName)]</code>. Go to your settings page to see group policies made available to you and request access to which ever ones you want. You will need <code>Beta testers</code> group policy for this page.",
+        text: "This means that your identity in active directory is not a member of the <code>Beta tester</code> group policy needed to access this resource. Would you like a tour of how to resolve this with an <code>Access Request</code>?",
         attachTo: {
             element: '.pb-3',
             on: 'bottom'
@@ -60,15 +120,22 @@ function BeginAccessDeniedTour() {
         classes: 'custom-tour',
         buttons: [
             {
-            text: 'Continue',
-            action: tour.next
+                text: 'Skip',
+                action: () => {
+                    tour.complete();
+                },
+                secondary: true
+            },
+            {
+                text: 'Start',
+                action: tour.next
             }
         ]
-        };
+    };
       
-      const stepTwo = {
+    const stepTwo = {
         id: "step2",
-        text: "More information on Authorizing group policies here.",
+        text: "Check out our Github for more information on authorizing group policies with Azure Ad.",
         attachTo: {
           element: "path",
           on: "bottom",
@@ -80,28 +147,42 @@ function BeginAccessDeniedTour() {
             action: tour.next,
           },
         ],
-      };
+    };
 
-      tour.addSteps([
-        Intro,
+    tour.addSteps([
         stepOne,
         stepTwo
-      ]);
+    ]);
 
-      if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || document.body.clientWidth < 600) {
-        console.log('mobile device detected')
+    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || document.body.clientWidth < 600) {
         let stepThree = {
             id: "step3",
-            text: "Go to your settings page to see group policies made available to you and request access to which ever ones you want. You will need <code>Beta testers</code> group policy for this page.",
+            text: () => {
+                if ($(".navbar-collapse").hasClass("collapse")) {
+                    $(".navbar-collapse").show();
+                }
+                else {
+                    $(".navbar-collapse").hide();
+                }
+                return "Go to your settings page to see group policies made available to you and request access to which ever ones you want. You will need <code>Beta testers</code> group policy for this page.";
+            },
             attachTo: {
-                element: '.popup-tour-menu-icon',
-                on: "bottom",
+                element: '#settings-icon',
+                on: "right",
             },
             classes: "custom-tour",
             buttons: [
                 {
-                text: "Complete",
-                action: tour.next,
+                    text: "Finish",
+                    action: () => {
+                        continue_tour_on_next_page("/", "step3", "AccessDeniedTour");
+                        tour.complete();
+                    },
+                    secondary: true
+                },
+                {
+                    text: "Take me there",
+                    action: tour.next
                 },
             ],
         };
@@ -109,8 +190,8 @@ function BeginAccessDeniedTour() {
         tour.addSteps([
             stepThree
         ]);
-      }
-      else {
+    }
+    else {
         let stepThree = {
             id: "step3",
             text: "Go to your settings page to see group policies made available to you and request access to which ever ones you want. You will need <code>Beta testers</code> group policy for this page.",
@@ -121,8 +202,16 @@ function BeginAccessDeniedTour() {
             classes: "custom-tour",
             buttons: [
                 {
-                text: "Complete",
-                action: tour.next,
+                    text: "Finish",
+                    action: () => {
+                        continue_tour_on_next_page("/", "step3", "AccessDeniedTour");
+                        tour.complete();
+                    },
+                    secondary: true
+                },
+                {
+                    text: "Take me there",
+                    action: tour.next
                 },
             ],
         };
@@ -130,9 +219,48 @@ function BeginAccessDeniedTour() {
         tour.addSteps([
             stepThree
         ]);
-      }
+    }
 
-      tour.start();
+    let stepFour = {
+        id: "step4",
+        text: () => {
+            $(".navbar-collapse").slideUp();
+            continue_tour_on_next_page("Settings", "step4", "AccessDeniedTour")
+        },
+        attachTo: {
+            element: 'html',
+            on: "right",
+        },
+        classes: "custom-tour",
+        when: {
+            show: () => {
+                tour.complete();
+            }
+        }
+    };
+
+    tour.addSteps([
+        stepFour
+    ]);
+
+    tour.start();
+}
+
+function getQueryVariable(variable) {
+    var query = window.location.search.substring(1);
+    var vars = query.split('&');
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split('=');
+        if (decodeURIComponent(pair[0]) == variable) {
+            return decodeURIComponent(pair[1]);
+        }
+    }
+    return false
+}
+
+function continue_tour_on_next_page(route, step, tour=Shepherd.activeTour.options.id){
+    var new_route = `/${route}?shepherdTour=${tour}&shepherdStep=${step}`
+    window.location.replace(new_route);
 }
 
 function BootstrapSpinnerAnimations() { 
