@@ -5,7 +5,7 @@ namespace bobbylite.realmikefacts.web.Services.Graph;
 /// <summary>
 /// Interface for <see cref="GraphService"/>
 /// </summary>
-public interface IGraphService
+public interface IGraphService : IDisposable
 { 
     /// <summary>
     /// Determins is a user belongs to groups.

@@ -16,6 +16,9 @@ public class GraphService : IGraphService
 {
     private readonly ILogger<GraphService> _logger;
     private readonly AzureOptions _azureOptions;
+    private readonly string[] _scopes;
+    private readonly ClientSecretCredential _clientSecretCredential;
+    private readonly GraphServiceClient _graphServiceClient;
 
     /// <summary>
     /// Initializes an instance of <see cref="GraphService"/>
@@ -26,6 +29,12 @@ public class GraphService : IGraphService
     {
         _logger = Guard.Against.Null(logger);
         _azureOptions = Guard.Against.Null(azureOptions.Value);
+
+        _scopes = new[] { "https://graph.microsoft.com/.default" };
+        _clientSecretCredential = new ClientSecretCredential(_azureOptions.TenantId, _azureOptions.ClientId,
+            _azureOptions.ClientSecret);
+
+        _graphServiceClient = new GraphServiceClient(_clientSecretCredential, _scopes);
     }
 
     /// <inheritdoc/>
@@ -34,20 +43,12 @@ public class GraphService : IGraphService
         Guard.Against.NullOrEmpty(userId);
         Guard.Against.NullOrEmpty(groupId);
 
-        var scopes = new[] { "https://graph.microsoft.com/.default" };
-        var clientSecretCredential = new ClientSecretCredential(_azureOptions.TenantId, _azureOptions.ClientId,
-            _azureOptions.ClientSecret);
-        var graphClient = new GraphServiceClient(clientSecretCredential, scopes);
-
-        var oDataId = $"https://graph.microsoft.com/v1.0/directoryObjects/{userId}";
-        var requestBody = new ReferenceCreate
-        {
-            OdataId = oDataId,
-        };
+        var userEndpoint = GetUserEndpoint(userId);
+        var referenceRequest = CreateUserReferenceRequest(userEndpoint);
 
         try 
         {
-            await graphClient.Groups[groupId].Members.Ref.PostAsync(requestBody);
+            await _graphServiceClient.Groups[groupId].Members.Ref.PostAsync(referenceRequest);
         }
         catch (ODataError e)
         {
@@ -155,4 +156,22 @@ public class GraphService : IGraphService
 
         return group is not null;
     }
+
+    private static string GetUserEndpoint(string userId)
+    {
+        return $"https://graph.microsoft.com/v1.0/directoryObjects/{userId}";
+    }
+
+    private static ReferenceCreate CreateUserReferenceRequest(string oDataId)
+    { 
+        return new ReferenceCreate
+        {
+            OdataId = oDataId,
+        };
+    }
+    
+    /// <summary>
+    /// Implements <see cref="IDisposable"/> interface. 
+    /// </summary>
+    public void Dispose() => GC.SuppressFinalize(this);
 }
