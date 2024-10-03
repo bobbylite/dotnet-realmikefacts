@@ -64,13 +64,6 @@
     @if (User.Identity!.IsAuthenticated)
     {
         <div style="text-align: -webkit-center">
-            <div class="typing-container">
-                <div id="typingDemo">
-                    <p>@Model.TweetMessage</p>
-                </div>
-            </div>
-            <br/>
-            <br/>
             <form method="post" autocomplete="off">
                 <input asp-for="TweetMessage" style="max-width: 600px" class="form-control form-control-lg" type="text" placeholder="What's happening?" maxlength="280">
                 <br/>

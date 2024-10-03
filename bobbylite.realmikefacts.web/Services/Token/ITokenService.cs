@@ -12,6 +12,11 @@ public interface ITokenService
     /// </summary>
     /// <returns></returns>
     public Task<TokenEndpointResponse> SetAccessToken();
+
+    /// <summary>
+    /// Refreshes the access token.
+    /// </summary>
+    public Task<TokenEndpointResponse> RefreshAccessToken();
     
     /// <summary>
     /// Token.

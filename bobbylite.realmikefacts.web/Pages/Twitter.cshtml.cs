@@ -17,6 +17,7 @@ public class TwitterModel : PageModel
 {
     private readonly ILogger<UserModel> _logger;
     private readonly ITwitterService _twitterService;
+    private readonly ITokenService _tokenService;
 
     /// <summary>
     /// Gets or sets the tweet message.
@@ -29,12 +30,15 @@ public class TwitterModel : PageModel
     /// </summary>
     /// <param name="logger"></param>
     /// <param name="twitterService"></param>
+    /// <param name="tokenService"></param>
     public TwitterModel(ILogger<UserModel> logger, 
-    ITwitterService twitterService)
-{
-    _logger = Guard.Against.Null(logger);
-    _twitterService = Guard.Against.Null(twitterService);
-}
+        ITwitterService twitterService,
+        ITokenService tokenService)
+    {
+        _logger = Guard.Against.Null(logger);
+        _twitterService = Guard.Against.Null(twitterService);
+        _tokenService = Guard.Against.Null(tokenService);
+    }
 
     /// <summary>
     /// Handles the GET request.
@@ -46,8 +50,9 @@ public class TwitterModel : PageModel
     /// <summary>
     /// Handles the POST request.
     /// </summary>
-    public void OnPost()
+    public async Task OnPost()
     {
-        _logger.LogInformation("Tweeting: {TweetMessage}", TweetMessage);
+        _logger.LogInformation("Sending Tweet: {TweetMessage}", TweetMessage);
+        await _twitterService.Tweet(TweetMessage);
     }
 }

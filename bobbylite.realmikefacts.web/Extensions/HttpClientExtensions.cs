@@ -26,6 +26,21 @@ public static class HttpClientExtensions
         
         return httpClient;
     }
+
+        /// <summary>
+    /// Adds authorization to the OpenAI <see cref="HttpClient"/>
+    /// </summary>
+    /// <param name="httpClient"></param>
+    /// <param name="apiToken"></param>
+    /// <returns></returns>
+    public static HttpClient AddTwitterAuthorization(this HttpClient httpClient, string apiToken)
+    {
+        Guard.Against.Null(httpClient);
+        
+        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiToken}");
+        
+        return httpClient;
+    }
         
     /// <summary>
     /// Adds basic authorization for twitter api.

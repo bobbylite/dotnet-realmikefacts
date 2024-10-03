@@ -24,4 +24,9 @@ public class TwitterOptions
     /// Twitter client secret.
     /// </summary>
     public string ClientSecret { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Twitter access token.
+    /// </summary>
+    public string RefreshToken { get; set; } = string.Empty;
 }

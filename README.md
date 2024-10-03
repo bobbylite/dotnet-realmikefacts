@@ -1,17 +1,20 @@
-# dotnet-realmikefacts
+# **RealMikeFacts - AI-Powered IAM Demo**
 
-This repository serves as a IAM demo that leverages OpenAI's training models.
+Welcome to **RealMikeFacts**, an innovative Identity and Access Management (IAM) demo powered by **OpenAI**. This project integrates **Microsoft AzureAD B2C** and leverages the latest in **AI** to deliver powerful functionality in a modern **ASP.NET Core 8** application, hosted on **Azure Web Apps**.
 
-## Technical Deep Dive
+## 🚀 **Technical Overview**
 
-This project was created with Microsoft asp.net 8. More information can be found here: https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-new-sdk-templates#web-options
+This demo app was built with cutting-edge tools and technologies. Here's a brief overview:
 
-RealMikeFacts leverages the power of AI with OpenAI's powerfully trained models.  More information can be found here: https://platform.openai.com/
+- **AI Solution**: [OpenAI](https://platform.openai.com) — Utilize state-of-the-art AI models for various intelligent features.
+- **IAM Solution**: [Azure AD B2C](https://learn.microsoft.com/en-us/azure/active-directory-b2c/overview) — Secure identity management for users.
+- **Hosting Solution**: [Azure Web Apps](https://learn.microsoft.com/en-us/azure/app-service/) — Scalable cloud hosting for web applications.
+- **Database Solution**: [Azure Cosmos DB (Mongo API)](https://learn.microsoft.com/en-us/azure/cosmos-db/mongodb/) — NoSQL database for high-performance data storage.
+- **Twitter Integration**: Twitter API integration for automated social media interactions.
 
-* AI Solution: Open AI
-* IAM Solution: Microsoft AzureAD B2C
-* Hosting Solution: Microsoft Azure web services
-* Database Soluiton: Microsoft Comsos Mongo DB
+## 🛠 **Configuration Guide**
+
+To configure the application, edit the necessary settings to suit your environment and adjust the behavior of the application accordingly.
 
 ## App configuration
 Edit `appsettings.json` to customize the behavior of OOTB features.
@@ -22,29 +25,31 @@ Edit `appsettings.json` to customize the behavior of OOTB features.
     "AccessToken": "...",
     "MaxTokens": 250,
     "temperature": 0.7,
-    "model": "..."
+    "model": "gpt-3.5-turbo"
   },
   "Twitter": {
     "BaseUrl": "https://api.twitter.com/",
     "ClientId": "...",
-    "ClientSecret": "..."
+    "ClientSecret": "...",
+    "RefreshToken": "...",
   },
   "Logging": {
     "LogLevel": {
       "Default": "Information",
-      "Microsoft.AspNetCore": "Warning"
+      "Microsoft.AspNetCore": "Warning",
+      "Microsoft.Identity": "Information"
     }
   },
   "AllowedHosts": "*",
   "AzureAd": {
-    "Instance": "https://{domain}.b2clogin.com/",
-    "Domain": "{domain}.onmicrosoft.com",
+    "Instance": "https://example.b2clogin.com/",
+    "Domain": "example.onmicrosoft.com",
     "ClientId": "...",
     "TenantId": "...",
     "ClientSecret": "...",
     "ClientCertificates": [
     ],
-    "SignUpSignInPolicyId": "{name_of_policy_flow}",
+    "SignUpSignInPolicyId": "B2C__signup_signin_flow",
     "CallbackPath": "/signin-oidc"
   },
   "Authorization": {
@@ -54,7 +59,7 @@ Edit `appsettings.json` to customize the behavior of OOTB features.
           {
             "ClaimType": "tfp",
             "AllowedValues": [
-              "{name_of_policy_flow}"
+              "B2C_signup_signin_flow"
             ]
           }
         ]
@@ -62,14 +67,24 @@ Edit `appsettings.json` to customize the behavior of OOTB features.
     }
   }
 }
-
 ```
 
-## How to run project
-```sh
-dotnet build release -c
-dotnet run --launch-profile "https"
-```
+### Customization Highlights:
+- **OpenAI Settings**: Adjust the API token, max tokens, and model parameters for optimal AI responses.
+- **Azure AD B2C Policies**: Customize Azure AD authentication and group policies for user roles and claims.
+
+## 💻 **Running the Project**
+
+Follow these simple steps to get started with the application:
+
+1. Build the project in release mode:
+    ```bash
+    dotnet build -c Release
+    ```
+2. Run the application with HTTPS enabled:
+    ```bash
+    dotnet run --launch-profile "https"
+    ```
 
 ## How to authorize a new page in the application for a custom group policy.
 ```csharp
@@ -86,12 +101,28 @@ public class AdministratorsModel : PageModel
 }
 ```
 
-## Documentation
+## 🐦 **Twitter API Integration**
 
-The following documentation is available in this repository.
+The application integrates with the **Twitter API** to enable seamless interaction with Twitter. To authorize and obtain an **Access Token**, the app uses the **OAuth 2.0 Authorization Code Grant** flow.
 
-* `README.md` - the steps for configuring the application.
+### How it works:
+1. The application first redirects the user to Twitter's authorization page, where they can grant access to their Twitter account.
+2. After authorization, Twitter sends back an **Authorization Code**.
+3. The application exchanges this code for an **Access Token** and a **Refresh Token**.
+4. The **Refresh Token** is stored securely and used to request new **Access Tokens** when the current one expires, without needing user intervention again.
 
-## RealMikeFacts Live
+### Why use the Refresh Token?
+The **Access Token** has a limited lifespan. By using a **Refresh Token**, the application can renew the **Access Token** without requiring users to re-authenticate each time. This is critical for long-term integrations where automated tasks (like posting tweets or retrieving user data) need to be performed regularly.
 
-Please check out RealMikeFacts at https://realmikefacts.azurewebsites.net
+For detailed documentation on how to implement this, refer to [Twitter OAuth 2.0 - User Access Token](https://developer.x.com/en/docs/authentication/oauth-2-0/user-access-token).
+
+## 📚 **Documentation**
+
+Key documentation resources available in this repository:
+
+- **`README.md`** — Step-by-step guide for configuration and deployment.
+
+## 🌐 **Live Demo**
+
+Explore the live version of **RealMikeFacts** hosted on Azure:  
+🔗 [RealMikeFacts Live](https://realmikefacts.azurewebsites.net)

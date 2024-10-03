@@ -18,6 +18,7 @@ public class TokenService : ITokenService
     private readonly ILogger<TokenService> _logger;
     private readonly TwitterOptions _twitterOptions;
     private readonly IHttpClientFactory _httpClientFactory;
+    private string _refreshToken = string.Empty;
 
     /// <summary>
     /// Token model for creating API requests.
@@ -67,6 +68,42 @@ public class TokenService : ITokenService
         var tokenResponse = JsonSerializer.Deserialize<TokenEndpointResponse>(responseContent);
 
         Token = tokenResponse ?? throw new NullOrEmptyAuthorizationTokenException();
+
+        return tokenResponse;
+    }
+
+    /// <inheritdoc />
+    public async Task<TokenEndpointResponse> RefreshAccessToken()
+    {
+        var refreshToken = _refreshToken == string.Empty ? _twitterOptions.RefreshToken : _refreshToken;
+        var urlEncodedFormData = new List<KeyValuePair<string, string>> { 
+            new KeyValuePair<string, string>("grant_type", "refresh_token"),
+            new KeyValuePair<string, string>("refresh_token",refreshToken)
+        };
+        var content = new FormUrlEncodedContent(urlEncodedFormData);
+        content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
+        
+        HttpClient httpClient = _httpClientFactory.CreateClient(HttpClientNames.TwitterTokenApi);
+        httpClient.AddBasicAuthorizationHeaders(_twitterOptions.ClientId, _twitterOptions.ClientSecret);
+
+        string requestUri = _twitterOptions.BaseUrl
+            .AppendPathSegments("2", "oauth2", "token");
+        
+        var httpResponseMessage = await httpClient.PostAsync(requestUri, content);
+        var responseContent = await httpResponseMessage.Content.ReadAsStringAsync();
+        
+        if (!httpResponseMessage.IsSuccessStatusCode)
+        {
+            _logger.LogError("Authentication operation was unsuccessful");
+        }
+
+        _logger.LogInformation("Authentication operation was successful");
+
+        var tokenResponse = JsonSerializer.Deserialize<TokenEndpointResponse>(responseContent);
+
+        Token = tokenResponse ?? throw new NullOrEmptyAuthorizationTokenException();
+
+        _refreshToken = tokenResponse.RefreshToken;
 
         return tokenResponse;
     }
