@@ -39,7 +39,7 @@ public class AdministratorsGroupAuthorizationHandler : AuthorizationHandler<Admi
     {
         if (context.User.Identity?.IsAuthenticated == false)
         {
-            _authorizationCookieService.DeleteCookie();;
+            _authorizationCookieService.DeleteCookie();
             return;
         }
 

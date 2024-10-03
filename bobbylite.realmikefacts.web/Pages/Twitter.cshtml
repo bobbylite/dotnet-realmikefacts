@@ -1,0 +1,120 @@
+﻿@page
+@model bobbylite.realmikefacts.web.Pages.TwitterModel
+
+@{
+    ViewData["Title"] = "Tweet Submission";
+    Layout = "_Layout";
+}
+<style>
+    /* CSS for a text ticker */
+    .ticker {
+      overflow: hidden; /* Hide the overflow */
+      white-space: nowrap; /* Prevent wrapping of text */
+      position: relative;
+    }
+    
+    .ticker p {
+      display: inline-block;
+      animation: ticker 30s linear infinite; /* Adjust the time as needed */
+    }
+    
+    @@keyframes ticker {
+      0% {
+        transform: translateX(100%); /* Start from the right and move left */
+      }
+      100% {
+        transform: translateX(-100%); /* End on the left, creating a loop */
+      }
+    }
+
+    .typing-container {
+        position: relative;
+    }
+    
+    #typing-text {
+        display: none; /* Hide text initially */
+        font-size: 24px;
+    }
+    
+    #typing-cursor::after {
+        content: "|"; /* Blinking cursor */
+        animation: blink 1s infinite;
+    }
+    
+    @@keyframes blink {
+        0% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+</style>
+<div class="text-center">
+    <h1 class="display-4"><img style="padding-right: 20px; padding-bottom: 10px" src="https://raw.githubusercontent.com/bobbylite/realmikefacts/master/img/Real-Mike-Facts-Logo-1.png" alt="Mike" width="70" height="60">Submit a Tweet</h1>
+    <div class="nav-link text-light">
+        <div class="nav-link text-light">Hello @User.Identity!.Name,</div>
+        Share your latest tweet with your followers.
+    </div>
+    <br/>
+    <br/>
+    @if (User.Identity!.IsAuthenticated)
+    {
+        <div style="text-align: -webkit-center">
+            <div class="typing-container">
+                <div id="typingDemo">
+                    <p>@Model.TweetMessage</p>
+                </div>
+            </div>
+            <br/>
+            <br/>
+            <form method="post" autocomplete="off">
+                <input asp-for="TweetMessage" style="max-width: 600px" class="form-control form-control-lg" type="text" placeholder="What's happening?" maxlength="280">
+                <br/>
+                <button class="btn btn-primary" type="submit" id="tweetButton" data-loading-text='<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Posting...' data-loading="false">
+                    Tweet
+                </button>
+            </form>
+        </div>
+    }
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const textElement = document.getElementById("typingDemo");
+    const text = textElement.textContent;
+    textElement.textContent = "";
+    textElement.style.display = "inline-block";
+
+    let index = 0;
+
+    function typeText() {
+        if (index < text.length) {
+            textElement.textContent += text.charAt(index);
+            index++;
+            setTimeout(typeText, 100); // Adjust typing speed (in milliseconds) here
+        }
+    }
+
+    typeText();
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const button = document.getElementById("tweetButton");
+    
+    const form = button.closest("form");
+    form.addEventListener("submit", function () {
+        if (button.getAttribute("data-loading") === "true") {
+            event.preventDefault(); // Prevent form submission if already loading
+        } else {
+            button.disabled = true;
+            button.setAttribute("data-loading", "true");
+            button.innerHTML = button.getAttribute("data-loading-text");
+        }
+    });
+});
+</script>
+
